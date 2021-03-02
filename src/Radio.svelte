@@ -22,7 +22,7 @@
   });
 
   const toggleCollapse = catId => {
-    const [catToToggle, others] = partition(collapsedState, catToFilter => catToFilter.id);
+    const [catToToggle, others] = partition(collapsedState, catToFilter => catToFilter.id === catId);
     const { isCollapsed: prevState = false } = catToToggle[0] || {};
 
     others.push({ id: catId, isCollapsed: !prevState })
@@ -102,7 +102,11 @@
         `}
         on:click={() => toggleCollapse(category.id)}
       >
-        <Icon data={faAngleDown} scale={1.5} />
+        <Icon
+          data={faAngleDown}
+          scale={1.5}
+          style={`color: ${shouldCollapse(category.id) ? COLORS.gray20 : COLORS.gray}`}
+        />
       </button>
     </div>
     {#if !shouldCollapse(category.id)}
