@@ -19,13 +19,20 @@
       },
     ],
   };
+
+  const onChecked = checkedValue => {
+    console.log('yeah', checkedValue)
+  };
 </script>
 
 <div class='layout'>
   <Header />
   <main class="container">
     <div class="filters">
-      <Radio category={category} />
+      <Radio
+        category={category}
+        onChecked={onChecked}
+      />
     </div>
 
     <div class='map'>

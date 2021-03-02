@@ -18,4 +18,5 @@ export const COLORS = {
 export const UICOLORS = {
   mainLink: COLORS.blue,
   secondaryLink: COLORS.yellow,
+  highlight: COLORS.orange,
 };
