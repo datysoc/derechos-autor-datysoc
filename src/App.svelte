@@ -1,9 +1,9 @@
 <script>
   import Header from './Header.svelte';
   import Map from './map/Map.svelte';
-  import Radio from './radioGroup/Radio.svelte';
+  import Radio from './Radio.svelte';
 
-  const category = {
+  const categoryA = {
     id: 'foo',
     value: 'foo',
     items: [
@@ -20,6 +20,23 @@
     ],
   };
 
+  const categoryB = {
+    id: 'test',
+    value: 'test',
+    items: [
+      {
+        id: 4,
+        label: 'coffee',
+        value: 'coffee',
+      },
+      {
+        id: 5,
+        label: 'soda',
+        value: 'soda',
+      },
+    ],
+  };
+
   const onChecked = checkedValue => {
     console.log('yeah', checkedValue)
   };
@@ -30,7 +47,7 @@
   <main class="container">
     <div class="filters">
       <Radio
-        category={category}
+        categories={[categoryA, categoryB]}
         onChecked={onChecked}
       />
     </div>
