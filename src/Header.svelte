@@ -4,20 +4,20 @@
 
   const menuItems = [
     {
+      id: 'home',
+      label: 'Inicio',
+      route: '/#',
+      isSelected: false,
+    },
+    {
       id: 'map',
       label: 'Mapa',
       route: '/#',
       isSelected: true,
     },
     {
-      id: 'blog',
-      label: 'Blog',
-      route: '/#',
-      isSelected: false,
-    },
-    {
-      id: 'about',
-      label: 'Acerca',
+      id: 'glossary',
+      label: 'Glosario',
       route: '/#',
       isSelected: false,
     },
@@ -36,6 +36,10 @@
     font-weight: ${isSelected ? '500' : '300'};
     font-size: 20px;
     color: ${UICOLORS.mainLink};
+
+    &:hover {
+      text-decoration: none;
+    }
   `
 </script>
 
@@ -59,6 +63,7 @@
   .menu {
     list-style: none;
     display: flex;
+    margin: 0 40px;
   }
 
   .menu-item {
