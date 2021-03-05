@@ -1,6 +1,6 @@
 <script>
-  import { css } from '../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
-  import { COLORS, UICOLORS } from './resources/colors';
+  import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
+  import { COLORS, UICOLORS } from '../resources/colors';
 
   const menuItems = [
     {

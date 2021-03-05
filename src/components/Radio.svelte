@@ -1,11 +1,10 @@
 <script>
   import {slide} from 'svelte/transition';
-  import { css } from '../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
+  import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Icon from 'svelte-awesome';
   import { partition, map } from 'lodash';
-  import { beer, refresh, comment, codeFork, camera, ban } from 'svelte-awesome/icons';
   import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-  import { COLORS, UICOLORS } from './resources/colors';
+  import { COLORS, UICOLORS } from '../resources/colors';
 
   export let categories = {};
   export let onChecked;
