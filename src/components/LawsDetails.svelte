@@ -82,7 +82,7 @@
       </button>
     </div>
     {#if !shouldCollapse(detail.id)}
-      <div transition:slide={{ duration: 500 }} class={detailDesc}>
+      <div transition:slide|local={{ duration: 500 }} class={detailDesc}>
         {detail.description}
       </div>
     {/if}

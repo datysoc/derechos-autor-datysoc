@@ -1,8 +1,10 @@
 <script>
+  import {slide} from 'svelte/transition';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Map from '../components/Map.svelte';
   import BoxDetail from '../components/BoxDetail.svelte';
   import Radio from '../components/Radio.svelte';
+  import { horizontalSlide } from '../components/horizontalSlide';
   import { COLORS } from '../resources/colors';
 
   const categoryA = {
@@ -66,18 +68,29 @@ luctus.`,
     },
   ];
 
-  const countryDetails = {
-    country: 'Uruguay',
-    details,
-  };
+  const countriesLaws = [
+    {
+      id: 'uruguay',
+      name: 'Uruguay',
+      details,
+    },
+    {
+      id: 'ecuador',
+      name: 'Ecuador',
+      details: [details[1]],
+    },
+  ];
+
+  let slideDetails = false;
 
   const onChecked = checkedValue => {
     console.log('yeah', checkedValue)
   };
 
-  const onClose = () => {
-    console.log('closed');
-  };
+  const onClose = () => slideDetails = false;
+
+  $: countryId = null;
+  $: detailsFor = {...countriesLaws.find(({ id }) => id === countryId) || {}};
 
   $: boxContainer = css`
     background-color: ${COLORS.transparentGray10};
@@ -102,12 +115,34 @@ luctus.`,
 
   <div class='map'>
     <Map />
-    <div class={boxContainer}>
-      <BoxDetail
-        countryDetails={countryDetails}
-        onClose={onClose}
-      />
-    </div>
+    <button
+      on:click={() => {
+        countryId = 'uruguay';
+        if (!slideDetails) {
+          slideDetails = true;
+        }
+      }}
+    >
+      uruguay
+    </button>
+    <button
+      on:click={() => {
+        countryId = 'ecuador';
+        if (!slideDetails) {
+          slideDetails = true;
+        }
+      }}
+    >
+      ecuador
+    </button>
+    {#if slideDetails}
+      <div class={boxContainer} transition:horizontalSlide={{ duration: 500 }}>
+        <BoxDetail
+          countryDetails={detailsFor}
+          onClose={onClose}
+        />
+      </div>
+    {/if}
   </div>
 </main>
 

@@ -5,10 +5,14 @@
 </script>
 
 <Map
-  accessToken="pk.eyJ1IjoiZGlhYmxvdXJiYW5vIiwiYSI6ImNqemt2aDRwYjBwMHEzY3BnbmVxdjRweGIifQ.cvEBixyqUDlB-uK5B9D5tg"
-  style="mapbox://styles/diablourbano/ck1lia3kk31m61co3atvllcbd"
-  on:recentre={e => console.log(e.detail.center.lat, e.detail.center.lng) }
-  options={{ scrollZoom: true }}
+  accessToken="pk.eyJ1IjoiZGlhYmxvdXJiYW5vIiwiYSI6ImNrbHhibThyaDBzb2gyd282NGtnM3kzNjUifQ.8pnavCVU4tlLBlg2jO17Og"
+  style="mapbox://styles/diablourbano/cklxerdyo2w5s17qop9qud88d"
+  options={{
+    scrollZoom: true,
+    zoom: 0,
+    minZoom: 0,
+    maxZoom: 8,
+  }}
 >
   <ScaleControl />
 </Map>

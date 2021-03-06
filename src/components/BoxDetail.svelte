@@ -5,10 +5,8 @@
   import { COLORS } from '../resources/colors';
   import LawsDetails from '../components/LawsDetails.svelte';
 
-  export let onClose = null;
-  export let countryDetails = {};
-
-  const { country, details } = countryDetails;
+  export let onClose;
+  export let countryDetails;
 
   $: countryName = css`
     color: ${COLORS.white};
@@ -34,8 +32,8 @@
   </button>
 
   <div class="detailsContainer">
-    <h3 class={countryName}>{country}</h3>
-    <LawsDetails details={details} />
+    <h3 class={countryName}>{countryDetails.name}</h3>
+    <LawsDetails details={countryDetails.details} />
   </div>
 </div>
 
@@ -58,5 +56,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
   }
 </style>

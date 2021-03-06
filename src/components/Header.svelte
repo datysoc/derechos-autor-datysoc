@@ -41,12 +41,20 @@
       text-decoration: none;
     }
   `
+
+  $: anchorColor = css`
+    color: ${COLORS.black};
+  `;
 </script>
 
 <header class={header}>
-  <div class="logo">
-    <img src='images/logo.png' class="logo-icon" />
-  </div>
+  <a class="logo" href="/" alt="go to home">
+      <img src='images/logo.png' class="logo-icon" alt="logo" />
+      <div class={`isotype ${anchorColor}`}>
+        <span>Flexibilidades al derecho</span>
+        <span>de autor en América Latina</span>
+      </div>
+  </a>
 
   <ul class='menu'>
     {#each menuItems as item (item.id)}
@@ -72,7 +80,21 @@
   }
 
   .logo {
+    align-items: center;
     margin-left: 18px;
+    display: flex;
+  }
+
+  .logo:hover {
+    text-decoration: none;
+  }
+
+  .isotype {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
   }
 
   .logo-icon {
