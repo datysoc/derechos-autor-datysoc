@@ -8,7 +8,7 @@
 
   export let details = [];
 
-  let collapsedState = map(details, (detail, idx) => {
+  $: collapsedState = map(details, (detail, idx) => {
     return { id: detail.id, isCollapsed: idx !== 0 };
   });
 

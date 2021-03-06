@@ -2,18 +2,27 @@
   import {slide} from 'svelte/transition';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Icon from 'svelte-awesome';
-  import { partition, map } from 'lodash';
+  import { partition, map, isEmpty } from 'lodash';
   import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
   import { COLORS, UICOLORS } from '../resources/colors';
 
   export let categories = {};
   export let onChecked;
 
-  let itemChecked;
+  let itemsChecked = [];
 
   const toggleChecked = e => {
-    itemChecked = e.currentTarget.value;
-    onChecked(itemChecked);
+    const itemChecked = e.currentTarget.value;
+
+    const [preExistenItem, otherItems] = partition(itemsChecked, anItem => anItem === itemChecked);
+
+    if (isEmpty(preExistenItem)) {
+      otherItems.push(itemChecked);
+    }
+
+    itemsChecked = otherItems
+
+    onChecked(itemsChecked);
   };
 
   let collapsedState = map(categories, category => {
@@ -69,15 +78,19 @@
   `;
 
   $: radioControl = css`
-    display: block;
+    display: flex;
     width: 1em;
     height: 1em;
-    border-radius: 50%;
+    border-radius: 4px;
     border: 0.1em solid ${UICOLORS.mainChecked};
+    padding: 1px 1px 2px 2px;
   `;
 
   $: radioControlChecked = css`
     background-color: ${UICOLORS.mainChecked};
+    border-radius: 2px;
+    width: 1em;
+    height: 1em;
   `;
 
   $: shouldCollapse = categoryId => {
@@ -85,6 +98,8 @@
 
     return isCollapsed;
   };
+
+  $: isChecked = itemValue => !!itemsChecked.find(itemChecked => itemChecked === itemValue);
 </script>
 
 {#each categories as category (category.id)}
@@ -117,14 +132,17 @@
             <span>
               <input
                 id={`category_${item.id}`}
-                type=radio
+                type="checkbox"
                 class="radioInput"
-                checked={itemChecked === item.value}
+                checked={isChecked(item.value)}
                 name={category.id}
                 on:change={toggleChecked}
                 value={item.value}
               />
-              <span class={`${radioControl} ${itemChecked === item.value ? radioControlChecked : ''}`} />
+                <div class={radioControl}>
+                  <div class={`test ${isChecked(item.value) ? radioControlChecked : ''}`} />
+                </div>
+              </span>
           </label>
         {/each}
       </div>

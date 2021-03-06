@@ -1,4 +1,5 @@
 <script>
+  import { map } from 'lodash';
   import {slide} from 'svelte/transition';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Map from '../components/Map.svelte';
@@ -70,16 +71,31 @@ luctus.`,
 
   const countriesLaws = [
     {
-      id: 'uruguay',
+      id: 'Uruguay',
       name: 'Uruguay',
       details,
     },
     {
-      id: 'ecuador',
+      id: 'Ecuador',
       name: 'Ecuador',
-      details: [details[1]],
+      details: [
+        {
+          id: 'ecuador-b',
+          title: 'Ley something something',
+          description: `
+    Lorem ipsum dolor sit amet
+    consectetur adipiscing elit.
+
+    Nunc dictum risus eu odio
+    consectetur elementum. Maecenas
+    maximus, ligula vehicula porta
+    luctus.`,
+        },
+      ],
     },
   ];
+
+  const countriesInStudy = map(countriesLaws, country => country.id);
 
   let slideDetails = false;
 
@@ -87,10 +103,15 @@ luctus.`,
     console.log('yeah', checkedValue)
   };
 
+  let countryId = null;
+  const shouldShowDetails = countryName => {
+    countryId = countryName;
+    slideDetails = !!countryName;
+  };
+
   const onClose = () => slideDetails = false;
 
-  $: countryId = null;
-  $: detailsFor = {...countriesLaws.find(({ id }) => id === countryId) || {}};
+  $: detailsFor = {...(countriesLaws.find(({ id }) => id === countryId) || {})};
 
   $: boxContainer = css`
     background-color: ${COLORS.transparentGray10};
@@ -114,27 +135,10 @@ luctus.`,
   </div>
 
   <div class='map'>
-    <Map />
-    <button
-      on:click={() => {
-        countryId = 'uruguay';
-        if (!slideDetails) {
-          slideDetails = true;
-        }
-      }}
-    >
-      uruguay
-    </button>
-    <button
-      on:click={() => {
-        countryId = 'ecuador';
-        if (!slideDetails) {
-          slideDetails = true;
-        }
-      }}
-    >
-      ecuador
-    </button>
+    <Map
+      countriesInStudy={countriesInStudy}
+      onCountrySelected={shouldShowDetails}
+    />
     {#if slideDetails}
       <div class={boxContainer} transition:horizontalSlide={{ duration: 500 }}>
         <BoxDetail
