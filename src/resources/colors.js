@@ -24,3 +24,9 @@ export const UICOLORS = {
   mainChecked: COLORS.blue,
   highlight: COLORS.orange,
 };
+
+export const STATE_COlORS = {
+  suficient: COLORS.green,
+  insuficient: COLORS.yellow,
+  inexistent: COLORS.red,
+};

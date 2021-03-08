@@ -1,10 +1,12 @@
 <script>
+  import { beforeUpdate } from 'svelte';
   import { map } from 'lodash';
   import { Map, controls } from '@beyonk/svelte-mapbox'
   import { COLORS } from '../resources/colors';
 
   export let countriesInStudy;
   export let onCountrySelected;
+  export let countryToToggle = null;
 
   const { ScaleControl } = controls
 
@@ -53,11 +55,15 @@
 
       const valueToApply = countryName === currentCountry ? '' : countryName;
 
-      mapComponent.getMap().setFilter('country-fill', ['==', 'NAME', valueToApply]);
-
       onCountrySelected(valueToApply);
     }
   };
+
+  beforeUpdate(() => {
+    if (mapComponent && mapComponent.getMap()) {
+      mapComponent.getMap().setFilter('country-fill', ['==', 'NAME', countryToToggle]);
+    }
+  });
 </script>
 
 <Map

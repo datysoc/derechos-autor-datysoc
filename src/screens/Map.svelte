@@ -45,6 +45,7 @@
   const details = [
     {
       id: 'detail-a',
+      state: 'inexistent',
       title: 'Ley 9739 art. 45 num. 4',
       description: `
 Lorem ipsum dolor sit amet
@@ -57,7 +58,21 @@ luctus.`,
     },
     {
       id: 'detail-b',
+      state: 'suficient',
       title: 'Ley 9764 art. 25 num. 2',
+      description: `
+Lorem ipsum dolor sit amet
+consectetur adipiscing elit.
+
+Nunc dictum risus eu odio
+consectetur elementum. Maecenas
+maximus, ligula vehicula porta
+luctus.`,
+    },
+    {
+      id: 'detail-c',
+      state: 'suficient',
+      title: 'Ley 364 art. 25 num. 6',
       description: `
 Lorem ipsum dolor sit amet
 consectetur adipiscing elit.
@@ -81,6 +96,7 @@ luctus.`,
       details: [
         {
           id: 'ecuador-b',
+          state: 'insuficient',
           title: 'Ley something something',
           description: `
     Lorem ipsum dolor sit amet
@@ -103,13 +119,16 @@ luctus.`,
     console.log('yeah', checkedValue)
   };
 
-  let countryId = null;
+  $: countryId = null;
   const shouldShowDetails = countryName => {
     countryId = countryName;
     slideDetails = !!countryName;
   };
 
-  const onClose = () => slideDetails = false;
+  const onClose = () => {
+    countryId = '';
+    slideDetails = false;
+  };
 
   $: detailsFor = {...(countriesLaws.find(({ id }) => id === countryId) || {})};
 
@@ -138,6 +157,7 @@ luctus.`,
     <Map
       countriesInStudy={countriesInStudy}
       onCountrySelected={shouldShowDetails}
+      countryToToggle={countryId}
     />
     {#if slideDetails}
       <div class={boxContainer} transition:horizontalSlide={{ duration: 500 }}>
