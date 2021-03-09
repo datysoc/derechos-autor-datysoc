@@ -19,6 +19,10 @@
   let checkedFilters = [];
 
   const onChecked = checkedValues => {
+    if (isEmpty(checkedValues)) {
+      slideDetails = false;
+    }
+
     checkedFilters = map(checkedValues, checkedValue => {
       const [categoryId, subcategoryId] = checkedValue.split('_');
 
@@ -74,8 +78,6 @@
     const filteredByCategories = filter(countryRow.categories, category => {
       return !!find(checkedFilters, { categoryId: category.id });
     });
-
-    console.log(filteredByCategories)
 
     const categories = map(filteredByCategories, category => {
       const filteredExceptions = filter(category.exceptions, exception => {

@@ -96,7 +96,7 @@
     const features = mapComponent.getMap().queryRenderedFeatures(clickedPoint, { layers: ['countries-fills'] });
 
     if (features.length) {
-      const [operator, property, currentCountry] = mapComponent.getMap().getFilter('country-fill');
+      const [operator, [equalOp, propertyName, currentCountry]] = mapComponent.getMap().getFilter('country-fill');
       const { properties: { NAME: countryName } } = features[0];
 
       const valueToApply = countryName === currentCountry ? '' : countryName;
@@ -163,7 +163,7 @@
         .getMap()
         .setFilter('country-fill', [
           'any',
-          ...map(filtersSelectedWithCountries, filteredCountry => ['==', 'NAME', filteredCountry.country]),
+          ...map(filtersSelectedWithCountries, filteredCountry => ['==', 'NAME', countryToToggle]),
         ]);
 
       forEach(heatmapIdsHighlighted, heatmapIdHighlighted => {
