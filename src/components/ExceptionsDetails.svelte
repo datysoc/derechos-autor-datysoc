@@ -63,7 +63,7 @@
         <br />
         <span class="exceptionState">( {stateLabelFor(exception.state).name} )</span>
       </p>
-      {#if !isEmpty(exceptions.norms)}
+      {#if !isEmpty(exception.norms)}
         <button
           class={`
             button
@@ -80,7 +80,7 @@
         </button>
       {/if}
     </div>
-    {#if !shouldCollapse(exception.state) || isEmpty(exceptions.norms)}
+    {#if !shouldCollapse(exception.state) || isEmpty(exception.norms)}
       <div class="stateDetails" transition:slide|local={{ duration: 500 }}>
         <LawsDetails
           details={exception.norms}
