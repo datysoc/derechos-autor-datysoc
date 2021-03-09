@@ -12,7 +12,6 @@
 
   const SELECT_ALL = 'selectAll';
 
-
   const possibleFilters = flatten(map(categories, cat =>
     map(cat.items, subcat => `${cat.id}_${subcat.id}`)));
 
