@@ -39,7 +39,7 @@
       layout: {},
       paint: {
         'fill-color': 'yellow',
-        'fill-opacity': 0.5
+        'fill-opacity': 0.3,
       },
       filter: ['==', 'NAME', ''],
     });

@@ -1,5 +1,5 @@
 <script>
-  import { map } from 'lodash';
+  import { find, filter, map } from 'lodash';
   import {slide} from 'svelte/transition';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Map from '../components/Map.svelte';
@@ -8,115 +8,23 @@
   import { horizontalSlide } from '../components/horizontalSlide';
   import { COLORS } from '../resources/colors';
 
-  const categoryA = {
-    id: 'foo',
-    value: 'foo',
-    items: [
-      {
-        id: 1,
-        label: 'bar',
-        value: 'bar',
-      },
-      {
-        id: 2,
-        label: 'lorem',
-        value: 'lorem',
-      },
-    ],
-  };
-
-  const categoryB = {
-    id: 'test',
-    value: 'test',
-    items: [
-      {
-        id: 4,
-        label: 'coffee',
-        value: 'coffee',
-      },
-      {
-        id: 5,
-        label: 'soda',
-        value: 'soda',
-      },
-    ],
-  };
-
-  const details = [
-    {
-      id: 'detail-a',
-      state: 'inexistent',
-      title: 'Ley 9739 art. 45 num. 4',
-      description: `
-Lorem ipsum dolor sit amet
-consectetur adipiscing elit.
-
-Nunc dictum risus eu odio
-consectetur elementum. Maecenas
-maximus, ligula vehicula porta
-luctus.`,
-    },
-    {
-      id: 'detail-b',
-      state: 'suficient',
-      title: 'Ley 9764 art. 25 num. 2',
-      description: `
-Lorem ipsum dolor sit amet
-consectetur adipiscing elit.
-
-Nunc dictum risus eu odio
-consectetur elementum. Maecenas
-maximus, ligula vehicula porta
-luctus.`,
-    },
-    {
-      id: 'detail-c',
-      state: 'suficient',
-      title: 'Ley 364 art. 25 num. 6',
-      description: `
-Lorem ipsum dolor sit amet
-consectetur adipiscing elit.
-
-Nunc dictum risus eu odio
-consectetur elementum. Maecenas
-maximus, ligula vehicula porta
-luctus.`,
-    },
-  ];
-
-  const countriesLaws = [
-    {
-      id: 'Uruguay',
-      name: 'Uruguay',
-      details,
-    },
-    {
-      id: 'Ecuador',
-      name: 'Ecuador',
-      details: [
-        {
-          id: 'ecuador-b',
-          state: 'insuficient',
-          title: 'Ley something something',
-          description: `
-    Lorem ipsum dolor sit amet
-    consectetur adipiscing elit.
-
-    Nunc dictum risus eu odio
-    consectetur elementum. Maecenas
-    maximus, ligula vehicula porta
-    luctus.`,
-        },
-      ],
-    },
-  ];
+  import { categories } from '../data/categories';
+  import { states } from '../data/states';
+  import { countriesLaws } from '../data/countries';
 
   const countriesInStudy = map(countriesLaws, country => country.id);
 
   let slideDetails = false;
 
+  const checkedFilters = [
+    { category: 'libertadExpresion', subcategory: 'cita' },
+  ];
+
   const onChecked = checkedValue => {
-    console.log('yeah', checkedValue)
+    console.log('yeah', checkedValue);
+    /*
+    * { category: 'libertadExpresion', subcategory: 'cita' }
+     */
   };
 
   $: countryId = null;
@@ -130,7 +38,36 @@ luctus.`,
     slideDetails = false;
   };
 
-  $: detailsFor = {...(countriesLaws.find(({ id }) => id === countryId) || {})};
+  $: detailsFor = () => {
+    const countryRow = find(countriesLaws, ({ id }) => id === countryId);
+
+    const filteredByCategories = filter(countryRow.categories, category => {
+      return !!find(checkedFilters, { category: category.id });
+    });
+
+    const categories = map(filteredByCategories, category => {
+      const filteredExceptions = filter(category.exceptions, exception => {
+        return !!find(checkedFilters, {
+          category: category.id,
+          subcategory: exception.id,
+        });
+      });
+
+      const exceptions = map(filteredExceptions, filteredException => {
+        return filteredException;
+      });
+
+      return {
+        ...category,
+        exceptions,
+      };
+    });
+
+    return {
+      ...countryRow,
+      categories,
+    };
+  };
 
   $: boxContainer = css`
     background-color: ${COLORS.transparentGray10};
@@ -148,7 +85,7 @@ luctus.`,
 <main class="container">
   <div class="filters">
     <Radio
-      categories={[categoryA, categoryB]}
+      categories={categories}
       onChecked={onChecked}
     />
   </div>
@@ -162,7 +99,9 @@ luctus.`,
     {#if slideDetails}
       <div class={boxContainer} transition:horizontalSlide={{ duration: 500 }}>
         <BoxDetail
-          countryDetails={detailsFor}
+          states={states}
+          categories={categories}
+          countryDetails={detailsFor()}
           onClose={onClose}
         />
       </div>

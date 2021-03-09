@@ -1,6 +1,6 @@
 <script>
   import {slide} from 'svelte/transition';
-  import { map, partition, groupBy } from 'lodash';
+  import { find, flatten, map, partition, groupBy } from 'lodash';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Icon from 'svelte-awesome';
   import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -10,9 +10,14 @@
 
   export let onClose;
   export let countryDetails;
+  export let states;
+  export let categories;
 
-  $: countryDetailsByState = groupBy(countryDetails.details, countryDetail => countryDetail.state);
-  $: states = Object.keys(countryDetailsByState);
+  let statesInCountry = flatten(map(countryDetails.categories, category => {
+    return map(category.exceptions, exception => {
+      return exception.state;
+    })
+  }));
 
   const toggleCollapse = state => {
     const [stateToToggle, others] = partition(collapsedState, anState => anState.state === state);
@@ -38,15 +43,20 @@
     border-radius: 8px;
   `;
 
-  $: collapsedState = map(states, (state, idx) => {
+  const categoryFor = categoryId =>
+    find(categories, { id: categoryId });
+
+  $: collapsedState = map(statesInCountry, (state, idx) => {
     return { state, isCollapsed: idx !==0 };
   });
 
   $: shouldCollapse = state => {
-    const { isCollapsed = false } = collapsedState.find(anState => anState.state === state) || {};
+    const { isCollapsed = false } = find(collapsedState, anState => anState.state === state) || {};
 
     return isCollapsed;
   };
+
+  $: stateLabelFor = stateId => find(states, { id: stateId });
 </script>
 
 <div class="box">
@@ -67,34 +77,57 @@
 
   <div class="detailsContainer">
     <h3 class={countryName}>{countryDetails.name}</h3>
-    {#each states as state}
-      <div class="stateDetailsContainer">
-        <div class={stateIndicator(state)}>
+    {#each countryDetails.categories as category (category.id)}
+      <div>
+        <div>
           <p class="stateLabel">
-            <span>• {state}</span>
+            <span>{categoryFor(category.id).value}</span>
           </p>
-        <button
-          class={`
-            button
-            angleDown
-            ${!shouldCollapse(state) ? 'angleUp' : ''}
-          `}
-          on:click={() => toggleCollapse(state)}
-        >
-          <Icon
-            data={faAngleDown}
-            scale={1.5}
-            style={`color: ${COLORS.white}`}
-          />
-        </button>
-        </div>
-        {#if !shouldCollapse(state)}
-          <div class="stateDetails" transition:slide|local={{ duration: 500 }}>
-            <LawsDetails
-              details={countryDetailsByState[state]}
+          <button
+            class={`
+              button
+              angleDown
+            `}
+            on:click={() => console.log('so something')}
+          >
+            <Icon
+              data={faAngleDown}
+              scale={1.5}
+              style={`color: ${COLORS.white}`}
             />
+          </button>
+        </div>
+
+        {#each category.exceptions as exception (exception.id)}
+          <div class="stateDetailsContainer">
+            <div class={stateIndicator(exception.state)}>
+              <p class="stateLabel">
+                <span>• {stateLabelFor(exception.state).name}</span>
+              </p>
+              <button
+                class={`
+                  button
+                  angleDown
+                  ${!shouldCollapse(exception.state) ? 'angleUp' : ''}
+                `}
+                on:click={() => toggleCollapse(exception.state)}
+              >
+                <Icon
+                  data={faAngleDown}
+                  scale={1.5}
+                  style={`color: ${COLORS.white}`}
+                />
+              </button>
+            </div>
+            {#if !shouldCollapse(exception.state)}
+              <div class="stateDetails" transition:slide|local={{ duration: 500 }}>
+                <LawsDetails
+                  details={exception.norms}
+                />
+              </div>
+            {/if}
           </div>
-        {/if}
+        {/each}
       </div>
     {/each}
   </div>
