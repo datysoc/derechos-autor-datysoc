@@ -1,6 +1,6 @@
 <script>
   import {slide} from 'svelte/transition';
-  import { find, map, partition } from 'lodash';
+  import { find, isEmpty, map, partition } from 'lodash';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Icon from 'svelte-awesome';
   import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -63,22 +63,24 @@
         <br />
         <span class="exceptionState">( {stateLabelFor(exception.state).name} )</span>
       </p>
-      <button
-        class={`
-          button
-          angleDown
-          ${!shouldCollapse(exception.state) ? 'angleUp' : ''}
-        `}
-        on:click={() => toggleCollapse(exception.state)}
-      >
-        <Icon
-          data={faAngleDown}
-          scale={1.5}
-          style={`color: ${COLORS.white}`}
-        />
-      </button>
+      {#if !isEmpty(exceptions.norms)}
+        <button
+          class={`
+            button
+            angleDown
+            ${!shouldCollapse(exception.state) ? 'angleUp' : ''}
+          `}
+          on:click={() => toggleCollapse(exception.state)}
+        >
+          <Icon
+            data={faAngleDown}
+            scale={1.5}
+            style={`color: ${COLORS.white}`}
+          />
+        </button>
+      {/if}
     </div>
-    {#if !shouldCollapse(exception.state)}
+    {#if !shouldCollapse(exception.state) || isEmpty(exceptions.norms)}
       <div class="stateDetails" transition:slide|local={{ duration: 500 }}>
         <LawsDetails
           details={exception.norms}

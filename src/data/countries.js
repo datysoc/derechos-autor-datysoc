@@ -99,6 +99,16 @@ export const countriesLaws = [
         id: 'libertadExpresion',
         exceptions,
       },
+      {
+        id: 'finesEducativos',
+        exceptions: [
+          {
+            id: 'reproducciones',
+            state: 'inexistent',
+            norms: [],
+          },
+        ],
+      },
     ],
   },
 ];

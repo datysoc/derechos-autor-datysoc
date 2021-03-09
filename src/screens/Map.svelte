@@ -19,6 +19,8 @@
   let checkedFilters = [];
 
   const onChecked = checkedValues => {
+    itemsChecked = checkedValues;
+
     if (isEmpty(checkedValues)) {
       slideDetails = false;
     }
@@ -57,14 +59,27 @@
 
     filtersSelectedWithCountries = filter(countriesWithExceptionsStates, countryWithException =>
       !isEmpty(countryWithException.states));
+
+    if (isEmpty(filtersSelectedWithCountries)) {
+      countryId = '';
+    }
   };
 
   $: filtersSelectedWithCountries = [];
 
+  $: itemsChecked = [];
   $: countryId = '';
+
   const shouldShowDetails = countryName => {
     countryId = countryName;
     slideDetails = !!countryName;
+
+    if (countryName && isEmpty(checkedFilters)) {
+      const allFilters = flatten(map(categories, cat =>
+        map(cat.items, subcat => `${cat.id}_${subcat.id}`)));
+
+      onChecked(['selectAll', ...allFilters]);
+    }
   };
 
   const onClose = () => {
@@ -120,6 +135,7 @@
   <div class="filters">
     <Radio
       categories={categories}
+      itemsChecked={itemsChecked}
       onChecked={onChecked}
     />
   </div>

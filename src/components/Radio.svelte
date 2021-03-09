@@ -7,11 +7,11 @@
   import { COLORS, UICOLORS } from '../resources/colors';
 
   export let categories = {};
+  export let itemsChecked = [];
   export let onChecked;
 
   const SELECT_ALL = 'selectAll';
 
-  let itemsChecked = [];
 
   const possibleFilters = flatten(map(categories, cat =>
     map(cat.items, subcat => `${cat.id}_${subcat.id}`)));
@@ -27,12 +27,10 @@
 
       itemsToFilter.push(itemChecked);
 
-      itemsChecked = itemsToFilter;
+      onChecked(itemsToFilter);
     } else {
-      itemsChecked = (itemChecked === SELECT_ALL) ? [] : otherItems;
+      onChecked((itemChecked === SELECT_ALL) ? [] : otherItems);
     }
-
-    onChecked(itemsChecked);
   };
 
   let collapsedState = map(categories, category => {

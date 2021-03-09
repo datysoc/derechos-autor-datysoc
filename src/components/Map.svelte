@@ -96,19 +96,13 @@
     const features = mapComponent.getMap().queryRenderedFeatures(clickedPoint, { layers: ['countries-fills'] });
 
     if (features.length) {
-      const [operator, [equalOp, propertyName, currentCountry]] = mapComponent.getMap().getFilter('country-fill');
+      const [equalOp, propertyName, currentCountry] = mapComponent.getMap().getFilter('country-fill');
       const { properties: { NAME: countryName } } = features[0];
 
       const valueToApply = countryName === currentCountry ? '' : countryName;
 
       onCountrySelected(valueToApply);
     }
-  };
-
-  const resetHeatmapLayerFor = countryName => {
-    mapComponent
-      .getMap()
-      .setFilter(`countries-fills-heatmap-${countryName}`, ['==', 'NAME', '']);
   };
 
   const toggleHeatmapFor = ({ filterId, country, isOn }) => {
@@ -161,18 +155,17 @@
     if (mapComponent && mapComponent.getMap()) {
       mapComponent
         .getMap()
-        .setFilter('country-fill', [
-          'any',
-          ...map(filtersSelectedWithCountries, filteredCountry => ['==', 'NAME', countryToToggle]),
-        ]);
+        .setFilter('country-fill', ['==', 'NAME', countryToToggle]);
 
       forEach(heatmapIdsHighlighted, heatmapIdHighlighted => {
         const { countryName, heatmapCountryId, highlighted } = heatmapIdHighlighted;
 
+        const isOn = countryToToggle ? countryName === countryToToggle : highlighted;
+
         toggleHeatmapFor({
           filterId: heatmapCountryId,
           country: countryName,
-          isOn: highlighted,
+          isOn,
         });
       });
     }
