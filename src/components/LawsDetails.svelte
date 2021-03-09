@@ -8,9 +8,8 @@
 
   export let details = [];
 
-  $: collapsedState = map(details, (detail, idx) => {
-    return { id: detail.id, isCollapsed: idx !== 0 };
-  });
+  $: collapsedState = map(details, (detail, idx) => (
+    { id: detail.id, isCollapsed: idx !== 0 }));
 
   const toggleCollapse = catId => {
     const [catToToggle, others] = partition(collapsedState, catToFilter => catToFilter.id === catId);
@@ -29,16 +28,6 @@
     margin-top: 18px;
   `;
 
-  $: detailGroupCollapsed = css`
-    padding: 8px 16px;
-  `;
-
-  $: detailContainer = css`
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-  `;
-
   $: detailLabel = css`
     color: ${COLORS.gray10};
     font-size: 16px;
@@ -53,6 +42,14 @@
     font-size: 14px;
   `;
 
+  $: detailDescription = css`
+    margin: 0 0 12px 0;
+  `;
+
+  $: detailLink = css`
+    color: ${UICOLORS.mainLink};
+  `;
+
   $: shouldCollapse = detailId => {
     const { isCollapsed = false } = collapsedState.find(cat => cat.id === detailId) || {};
 
@@ -61,8 +58,8 @@
 </script>
 
 {#each details as detail (detail.id)}
-  <div class={`${detailGroup} ${shouldCollapse(detail.id) ? detailGroupCollapsed : ''}`}>
-    <div class={detailContainer}>
+  <div class={`${detailGroup} ${shouldCollapse(detail.id) ? 'detailGroupCollapsed' : ''}`}>
+    <div class="detailContainer">
       <p class={detailLabel}>
         <span>• {detail.title}</span>
       </p>
@@ -83,7 +80,14 @@
     </div>
     {#if !shouldCollapse(detail.id)}
       <div transition:slide|local={{ duration: 500 }} class={detailDesc}>
-        {detail.description}
+        <p class={detailDescription}>
+          {detail.description}
+        </p>
+        {#if detail.link}
+          <a href={detail.link} class={detailLink}>
+            {detail.linkLabel || 'más'}
+          </a>
+        {/if}
       </div>
     {/if}
   </div>
@@ -114,5 +118,15 @@
     width: 0;
     height: 0;
     position: absolute;
+  }
+
+  .detailContainer {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .detailGroupCollapsed {
+    padding: 8px 16px;
   }
 </style>

@@ -1,11 +1,12 @@
 <script>
   import {slide} from 'svelte/transition';
-  import { find, flatten, map, partition, groupBy } from 'lodash';
+  import { find, map, partition } from 'lodash';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Icon from 'svelte-awesome';
   import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
   import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-  import { COLORS, STATE_COlORS } from '../resources/colors';
+  import { COLORS } from '../resources/colors';
+  import ExceptionsDetails from '../components/ExceptionsDetails.svelte';
   import LawsDetails from '../components/LawsDetails.svelte';
 
   export let onClose;
@@ -13,50 +14,46 @@
   export let states;
   export let categories;
 
-  let statesInCountry = flatten(map(countryDetails.categories, category => {
-    return map(category.exceptions, exception => {
-      return exception.state;
-    })
-  }));
+  const toggleCollapse = categoryId => {
+    const [categoryToToggle, others] = partition(collapsedCategories, cat => cat.categoryId === categoryId);
+    const { isCollapsed: prevState = false } = categoryToToggle[0] || {};
 
-  const toggleCollapse = state => {
-    const [stateToToggle, others] = partition(collapsedState, anState => anState.state === state);
-    const { isCollapsed: prevState = false } = stateToToggle[0] || {};
+    others.push({ categoryId, isCollapsed: !prevState })
 
-    others.push({ state, isCollapsed: !prevState })
-
-    collapsedState = others;
+    collapsedCategories = others;
   };
 
   $: countryName = css`
     color: ${COLORS.white};
     font-size: 24px;
-    margin: 0 0 12px;
+    margin: 0 0 22px;
   `;
 
-  $: stateIndicator = state => css`
-    background-color: ${STATE_COlORS[state]};
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 12px;
-    border-radius: 8px;
+  $: categoryContainer = css`
+    padding: 0 10px 8px 12px;
+    background-color: ${COLORS.transparentWhite10};
+    border-radius: 12px;
+  `;
+
+  $: categoryDescription = css`
+    color: ${COLORS.white};
+    font-family: "Space Mono", Arial, sans-serif;
+    font-size: 14px;
+    margin: 0 0 30px;
   `;
 
   const categoryFor = categoryId =>
     find(categories, { id: categoryId });
 
-  $: collapsedState = map(statesInCountry, (state, idx) => {
-    return { state, isCollapsed: idx !==0 };
+  $: collapsedCategories = map(countryDetails.categories, (cat, idx) => {
+    return { categoryId: cat.id, isCollapsed: idx !==0 };
   });
 
-  $: shouldCollapse = state => {
-    const { isCollapsed = false } = find(collapsedState, anState => anState.state === state) || {};
+  $: shouldCollapse = categoryId => {
+    const { isCollapsed = false } = find(collapsedCategories, { categoryId }) || {};
 
     return isCollapsed;
   };
-
-  $: stateLabelFor = stateId => find(states, { id: stateId });
 </script>
 
 <div class="box">
@@ -78,56 +75,41 @@
   <div class="detailsContainer">
     <h3 class={countryName}>{countryDetails.name}</h3>
     {#each countryDetails.categories as category (category.id)}
-      <div>
-        <div>
-          <p class="stateLabel">
-            <span>{categoryFor(category.id).value}</span>
+      <div class={categoryContainer}>
+        <div class="category">
+          <div class="categoryDetail">
+            <p class="stateLabel">
+              <span>{categoryFor(category.id).value}</span>
+            </p>
+            <button
+              class={`
+                button
+                angleDown
+                ${!shouldCollapse(category.id) ? 'angleUp' : ''}
+              `}
+              on:click={() => toggleCollapse(category.id)}
+            >
+              <Icon
+                data={faAngleDown}
+                scale={1.5}
+                style={`color: ${COLORS.white}`}
+              />
+            </button>
+          </div>
+          <p class={categoryDescription}>
+            {categoryFor(category.id).description}
           </p>
-          <button
-            class={`
-              button
-              angleDown
-            `}
-            on:click={() => console.log('so something')}
-          >
-            <Icon
-              data={faAngleDown}
-              scale={1.5}
-              style={`color: ${COLORS.white}`}
-            />
-          </button>
         </div>
 
-        {#each category.exceptions as exception (exception.id)}
-          <div class="stateDetailsContainer">
-            <div class={stateIndicator(exception.state)}>
-              <p class="stateLabel">
-                <span>• {stateLabelFor(exception.state).name}</span>
-              </p>
-              <button
-                class={`
-                  button
-                  angleDown
-                  ${!shouldCollapse(exception.state) ? 'angleUp' : ''}
-                `}
-                on:click={() => toggleCollapse(exception.state)}
-              >
-                <Icon
-                  data={faAngleDown}
-                  scale={1.5}
-                  style={`color: ${COLORS.white}`}
-                />
-              </button>
-            </div>
-            {#if !shouldCollapse(exception.state)}
-              <div class="stateDetails" transition:slide|local={{ duration: 500 }}>
-                <LawsDetails
-                  details={exception.norms}
-                />
-              </div>
-            {/if}
+        {#if !shouldCollapse(category.id)}
+          <div class="categoryDetails" transition:slide|local={{ duration: 500 }}>
+            <ExceptionsDetails
+              categoryDesc={categoryFor(category.id).items}
+              exceptions={category.exceptions}
+              states={states}
+            />
           </div>
-        {/each}
+        {/if}
       </div>
     {/each}
   </div>
@@ -139,14 +121,6 @@
     height: 100%;
   }
 
-  .stateDetailsContainer {
-    margin: 16px 0;
-  }
-
-  .stateDetails {
-    padding: 0 12px;
-  }
-
   .stateLabel {
     color: white;
     font-weight: 500;
@@ -154,7 +128,15 @@
   }
 
   .detailsContainer {
-    padding: 2px 20px 12px;
+    padding: 2px 20px 30px;
+  }
+
+  .category {}
+
+  .categoryDetail {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
   }
 
   .closeButton {

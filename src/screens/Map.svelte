@@ -18,6 +18,7 @@
 
   const checkedFilters = [
     { category: 'libertadExpresion', subcategory: 'cita' },
+    { category: 'libertadExpresion', subcategory: 'noticiasDeActualidad' },
   ];
 
   const onChecked = checkedValue => {
@@ -79,6 +80,8 @@
     top: 69px;
     right: 0;
     padding: 8px;
+    overflow: hidden;
+    overflow-y: auto;
   `;
 </script>
 

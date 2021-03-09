@@ -9,6 +9,8 @@ export const COLORS = {
 
   transparentGray10: 'rgba(98, 98, 98, 0.8);',
 
+  transparentWhite10: 'rgba(255, 255, 255, 0.1)',
+
   orange: '#ff5500',
   yellow: '#fae731',
   violet: '#252352',
