@@ -2,25 +2,35 @@
   import {slide} from 'svelte/transition';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Icon from 'svelte-awesome';
-  import { partition, map, isEmpty } from 'lodash';
+  import { flatten, partition, map, isEmpty } from 'lodash';
   import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
   import { COLORS, UICOLORS } from '../resources/colors';
 
   export let categories = {};
   export let onChecked;
 
+  const SELECT_ALL = 'selectAll';
+
   let itemsChecked = [];
+
+  const possibleFilters = flatten(map(categories, cat =>
+    map(cat.items, subcat => `${cat.id}_${subcat.id}`)));
 
   const toggleChecked = e => {
     const itemChecked = e.currentTarget.value;
 
     const [preExistenItem, otherItems] = partition(itemsChecked, anItem => anItem === itemChecked);
 
-    if (isEmpty(preExistenItem)) {
-      otherItems.push(itemChecked);
-    }
 
-    itemsChecked = otherItems
+    if (isEmpty(preExistenItem)) {
+      const itemsToFilter = (itemChecked === SELECT_ALL) ? [...possibleFilters] : otherItems;
+
+      itemsToFilter.push(itemChecked);
+
+      itemsChecked = itemsToFilter;
+    } else {
+      itemsChecked = (itemChecked === SELECT_ALL) ? [] : otherItems;
+    }
 
     onChecked(itemsChecked);
   };
@@ -44,6 +54,22 @@
     &:first-child {
       margin-top: 28px;
     }
+  `;
+
+  $: categoriesToSelect = css`
+    padding: 0 8px;
+  `;
+
+  $: selectAll = css`
+    background-color: ${COLORS.lighGray20};
+    margin-bottom: 18px;
+    padding: 2px 8px;
+    border-radius: 4px;
+  `;
+
+  $: selectAllLabel = css`
+    font-family: "Space Mono", Arial;
+    font-weight: 500;
   `;
 
   $: categoryContainer = css`
@@ -102,53 +128,75 @@
   $: isChecked = itemValue => !!itemsChecked.find(itemChecked => itemChecked === itemValue);
 </script>
 
-{#each categories as category (category.id)}
+<div class="filtersContainer">
   <div class={categoryGroup}>
-    <div class={categoryContainer}>
-      <p class={categoryLabel}>
-        <span>{category.value}</span>
-      </p>
-      <button
-        class={`
-          button
-          angleDown
-          ${!shouldCollapse(category.id) ? 'angleUp' : ''}
-        `}
-        on:click={() => toggleCollapse(category.id)}
-      >
-        <Icon
-          data={faAngleDown}
-          scale={1.5}
-          style={`color: ${shouldCollapse(category.id) ? COLORS.gray20 : COLORS.gray}`}
-        />
-      </button>
-    </div>
-    {#if !shouldCollapse(category.id)}
-      <div transition:slide={{ duration: 500 }} class={itemsGroup}>
-        {#each category.items as item (item.id)}
-          <label for={`category_${item.id}`} class={itemLabel}>
-            <span>{item.label}</span>
+    <label for={'category_selectAll'} class={`${categoryContainer} ${selectAll}`}>
+      <span class={`${categoryLabel} ${selectAllLabel}`}>Seleccionar Todo</span>
 
-            <span>
-              <input
-                id={`category_${item.id}`}
-                type="checkbox"
-                class="radioInput"
-                checked={isChecked(`${category.id}_${item.value}`)}
-                name={category.id}
-                on:change={toggleChecked}
-                value={`${category.id}_${item.value}`}
-              />
-                <div class={radioControl}>
-                  <div class={`test ${isChecked(`${category.id}_${item.value}`) ? radioControlChecked : ''}`} />
-                </div>
-              </span>
-          </label>
-        {/each}
-      </div>
-    {/if}
+      <span>
+        <input
+          id={'category_selectAll'}
+          type="checkbox"
+          class="radioInput"
+          checked={isChecked(SELECT_ALL)}
+          name={SELECT_ALL}
+          on:change={toggleChecked}
+          value={SELECT_ALL}
+        />
+          <div class={radioControl}>
+            <div class={`${isChecked(SELECT_ALL) ? radioControlChecked : ''}`} />
+          </div>
+        </span>
+    </label>
   </div>
-{/each}
+  {#each categories as category (category.id)}
+    <div class={`${categoryGroup} ${categoriesToSelect}`}>
+      <div class={categoryContainer}>
+        <p class={categoryLabel}>
+          <span>{category.value}</span>
+        </p>
+        <button
+          class={`
+            button
+            angleDown
+            ${!shouldCollapse(category.id) ? 'angleUp' : ''}
+          `}
+          on:click={() => toggleCollapse(category.id)}
+        >
+          <Icon
+            data={faAngleDown}
+            scale={1.5}
+            style={`color: ${shouldCollapse(category.id) ? COLORS.gray20 : COLORS.gray}`}
+          />
+        </button>
+      </div>
+      {#if !shouldCollapse(category.id)}
+        <div transition:slide={{ duration: 500 }} class={itemsGroup}>
+          {#each category.items as item (item.id)}
+            <label for={`category_${item.id}`} class={itemLabel}>
+              <span>{item.label}</span>
+
+              <span>
+                <input
+                  id={`category_${item.id}`}
+                  type="checkbox"
+                  class="radioInput"
+                  checked={isChecked(`${category.id}_${item.value}`)}
+                  name={category.id}
+                  on:change={toggleChecked}
+                  value={`${category.id}_${item.value}`}
+                />
+                  <div class={radioControl}>
+                    <div class={`${isChecked(`${category.id}_${item.value}`) ? radioControlChecked : ''}`} />
+                  </div>
+                </span>
+            </label>
+          {/each}
+        </div>
+      {/if}
+    </div>
+  {/each}
+</div>
 
 <style>
   .angleDown {
