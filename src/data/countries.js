@@ -64,28 +64,41 @@ export const countriesLaws = [
         id: 'libertadExpresion',
         exceptions,
       },
-    ],
-  },
-  /*
-  {
-    id: 'Ecuador',
-    name: 'Ecuador',
-    details: [
       {
-        id: 'ecuador-b',
-        state: 'insuficient',
-        title: 'Ley something something',
-        description: `
-Lorem ipsum dolor sit amet
-consectetur adipiscing elit.
+        id: 'finesEducativos',
+        exceptions: [
+          {
+            id: 'comunicacion',
+            state: 'suficient',
+            norms: [
+              {
+                id: 'detail-d',
+                title: 'Ley 64 art. 25 num. 6',
+                description: `
+            Lorem ipsum dolor sit amet
+            consectetur adipiscing elit.
 
-Nunc dictum risus eu odio
-consectetur elementum. Maecenas
-maximus, ligula vehicula porta
-luctus.`,
+            Nunc dictum risus eu odio
+            consectetur elementum. Maecenas
+            maximus, ligula vehicula porta
+            luctus.`,
+                link: 'http://something.com',
+                linkLabel: 'something more',
+              },
+            ],
+          },
+        ],
       },
     ],
   },
-  */
+  {
+    id: 'Ecuador',
+    name: 'Ecuador',
+    categories: [
+      {
+        id: 'libertadExpresion',
+        exceptions,
+      },
+    ],
+  },
 ];
-

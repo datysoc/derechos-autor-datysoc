@@ -134,13 +134,13 @@
                 id={`category_${item.id}`}
                 type="checkbox"
                 class="radioInput"
-                checked={isChecked(item.value)}
+                checked={isChecked(`${category.id}_${item.value}`)}
                 name={category.id}
                 on:change={toggleChecked}
-                value={item.value}
+                value={`${category.id}_${item.value}`}
               />
                 <div class={radioControl}>
-                  <div class={`test ${isChecked(item.value) ? radioControlChecked : ''}`} />
+                  <div class={`test ${isChecked(`${category.id}_${item.value}`) ? radioControlChecked : ''}`} />
                 </div>
               </span>
           </label>

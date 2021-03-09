@@ -74,44 +74,46 @@
 
   <div class="detailsContainer">
     <h3 class={countryName}>{countryDetails.name}</h3>
-    {#each countryDetails.categories as category (category.id)}
-      <div class={categoryContainer}>
-        <div class="category">
-          <div class="categoryDetail">
-            <p class="stateLabel">
-              <span>{categoryFor(category.id).value}</span>
+    <div class="scrollContainer">
+      {#each countryDetails.categories as category (category.id)}
+        <div class={categoryContainer}>
+          <div class="category">
+            <div class="categoryDetail">
+              <p class="stateLabel">
+                <span>{categoryFor(category.id).value}</span>
+              </p>
+              <button
+                class={`
+                  button
+                  angleDown
+                  ${!shouldCollapse(category.id) ? 'angleUp' : ''}
+                `}
+                on:click={() => toggleCollapse(category.id)}
+              >
+                <Icon
+                  data={faAngleDown}
+                  scale={1.5}
+                  style={`color: ${COLORS.white}`}
+                />
+              </button>
+            </div>
+            <p class={categoryDescription}>
+              {categoryFor(category.id).description}
             </p>
-            <button
-              class={`
-                button
-                angleDown
-                ${!shouldCollapse(category.id) ? 'angleUp' : ''}
-              `}
-              on:click={() => toggleCollapse(category.id)}
-            >
-              <Icon
-                data={faAngleDown}
-                scale={1.5}
-                style={`color: ${COLORS.white}`}
-              />
-            </button>
           </div>
-          <p class={categoryDescription}>
-            {categoryFor(category.id).description}
-          </p>
-        </div>
 
-        {#if !shouldCollapse(category.id)}
-          <div class="categoryDetails" transition:slide|local={{ duration: 500 }}>
-            <ExceptionsDetails
-              categoryDesc={categoryFor(category.id).items}
-              exceptions={category.exceptions}
-              states={states}
-            />
-          </div>
-        {/if}
-      </div>
-    {/each}
+          {#if !shouldCollapse(category.id)}
+            <div class="categoryDetails" transition:slide|local={{ duration: 500 }}>
+              <ExceptionsDetails
+                categoryDesc={categoryFor(category.id).items}
+                exceptions={category.exceptions}
+                states={states}
+              />
+            </div>
+          {/if}
+        </div>
+      {/each}
+    </div>
   </div>
 </div>
 
@@ -129,6 +131,13 @@
 
   .detailsContainer {
     padding: 2px 20px 30px;
+  }
+
+  .scrollContainer {
+    border-radius: 6px;
+    height: calc(100vh - 200px);
+    overflow: hidden;
+    overflow-y: auto;
   }
 
   .category {}

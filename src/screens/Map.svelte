@@ -1,5 +1,5 @@
 <script>
-  import { find, filter, map } from 'lodash';
+  import { find, flatten, filter, groupBy, isEmpty, map } from 'lodash';
   import {slide} from 'svelte/transition';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Map from '../components/Map.svelte';
@@ -16,19 +16,61 @@
 
   let slideDetails = false;
 
-  const checkedFilters = [
+  let checkedFilters = [
     { category: 'libertadExpresion', subcategory: 'cita' },
     { category: 'libertadExpresion', subcategory: 'noticiasDeActualidad' },
   ];
 
-  const onChecked = checkedValue => {
-    console.log('yeah', checkedValue);
+  /* TO REMOVE */
+  $: filtersSelectedWithCountries = [];
+  /* END TO REMOVE */
+
+  const onChecked = checkedValues => {
+    checkedFilters = map(checkedValues, checkedValue => {
+      const [categoryId, subcategoryId] = checkedValue.split('_');
+
+      return { categoryId, subcategoryId };
+    });
+
+    const groupedFilters = map(
+      groupBy(checkedFilters, checkedFilter => checkedFilter.categoryId),
+      groupedFilter => {
+        const { categoryId } = groupedFilter[0];
+
+        const subcategories = map(groupedFilter, aGroupedFilter => aGroupedFilter.subcategoryId);
+
+        return { categoryId, subcategories };
+      }
+    );
+
+    const countriesWithExceptionsStates = map(countriesLaws, countryLaw => {
+      const states = map(groupedFilters, groupedFilter => {
+        const { categoryId, subcategories } = groupedFilter;
+
+        const { exceptions = [] } = find(countryLaw.categories, { id: categoryId }) || {};
+
+        const countryWithExceptions = filter(exceptions, exception =>
+          !!find(subcategories, subcat => subcat === exception.id));
+
+        return map(countryWithExceptions, countryWithException => countryWithException.state);
+      });
+
+      return { country: countryLaw.id, states: flatten(states) };
+    });
+
+    filtersSelectedWithCountries = filter(countriesWithExceptionsStates, countryWithException =>
+      !isEmpty(countryWithException.states));
+
+    /*const countriesMarked = map(countriesLaws, countryDetails => {*/
+    /*  return {  }*/
+    /*});*/
+
     /*
     * { category: 'libertadExpresion', subcategory: 'cita' }
      */
   };
 
-  $: countryId = null;
+  $: countryId = '';
   const shouldShowDetails = countryName => {
     countryId = countryName;
     slideDetails = !!countryName;
@@ -80,8 +122,6 @@
     top: 69px;
     right: 0;
     padding: 8px;
-    overflow: hidden;
-    overflow-y: auto;
   `;
 </script>
 
@@ -98,6 +138,7 @@
       countriesInStudy={countriesInStudy}
       onCountrySelected={shouldShowDetails}
       countryToToggle={countryId}
+      filtersSelectedWithCountries={filtersSelectedWithCountries}
     />
     {#if slideDetails}
       <div class={boxContainer} transition:horizontalSlide={{ duration: 500 }}>
