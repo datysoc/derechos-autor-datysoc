@@ -69,11 +69,11 @@ export const countriesLaws = [
         exceptions: [
           {
             id: 'comunicacion',
-            state: 'suficient',
+            state: 'insuficient',
             norms: [
               {
-                id: 'detail-d',
-                title: 'Ley 64 art. 25 num. 6',
+                id: 'ley64Art25Num7',
+                title: 'Ley 64 art. 25 num. 7',
                 description: `
             Lorem ipsum dolor sit amet
             consectetur adipiscing elit.

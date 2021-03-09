@@ -16,14 +16,7 @@
 
   let slideDetails = false;
 
-  let checkedFilters = [
-    { category: 'libertadExpresion', subcategory: 'cita' },
-    { category: 'libertadExpresion', subcategory: 'noticiasDeActualidad' },
-  ];
-
-  /* TO REMOVE */
-  $: filtersSelectedWithCountries = [];
-  /* END TO REMOVE */
+  let checkedFilters = [];
 
   const onChecked = checkedValues => {
     checkedFilters = map(checkedValues, checkedValue => {
@@ -60,15 +53,9 @@
 
     filtersSelectedWithCountries = filter(countriesWithExceptionsStates, countryWithException =>
       !isEmpty(countryWithException.states));
-
-    /*const countriesMarked = map(countriesLaws, countryDetails => {*/
-    /*  return {  }*/
-    /*});*/
-
-    /*
-    * { category: 'libertadExpresion', subcategory: 'cita' }
-     */
   };
+
+  $: filtersSelectedWithCountries = [];
 
   $: countryId = '';
   const shouldShowDetails = countryName => {
@@ -85,14 +72,16 @@
     const countryRow = find(countriesLaws, ({ id }) => id === countryId);
 
     const filteredByCategories = filter(countryRow.categories, category => {
-      return !!find(checkedFilters, { category: category.id });
+      return !!find(checkedFilters, { categoryId: category.id });
     });
+
+    console.log(filteredByCategories)
 
     const categories = map(filteredByCategories, category => {
       const filteredExceptions = filter(category.exceptions, exception => {
         return !!find(checkedFilters, {
-          category: category.id,
-          subcategory: exception.id,
+          categoryId: category.id,
+          subcategoryId: exception.id,
         });
       });
 

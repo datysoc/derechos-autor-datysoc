@@ -33,6 +33,7 @@
     padding: 0 10px 8px 12px;
     background-color: ${COLORS.transparentWhite10};
     border-radius: 12px;
+    margin: 2px 0 18px;
   `;
 
   $: categoryDescription = css`

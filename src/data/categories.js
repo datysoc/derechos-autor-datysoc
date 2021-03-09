@@ -19,6 +19,7 @@ const categoryA = {
 const categoryB = {
   id: 'finesEducativos',
   value: 'Fines educativos',
+  description: '',
   items: [
     {
       id: 'comunicacion',
