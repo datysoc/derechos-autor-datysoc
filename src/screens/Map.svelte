@@ -167,6 +167,9 @@
 
   .filters {
     width: 300px;
+    height: calc(100vh - 68px);
+    overflow: hidden;
+    overflow-y: auto;
   }
 
   .map {
