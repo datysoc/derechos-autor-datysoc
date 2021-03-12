@@ -84,7 +84,7 @@
           {detail.description}
         </p>
         {#if detail.link}
-          <a href={detail.link} class={detailLink}>
+          <a href={detail.link} class={detailLink} target="_blank">
             {detail.linkLabel || 'más'}
           </a>
         {/if}
