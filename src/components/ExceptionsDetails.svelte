@@ -43,7 +43,7 @@
 
 
   $: collapsedState = map(exceptions, ({ state }, idx) => {
-    return { state, isCollapsed: idx !==0 };
+    return { state, isCollapsed: true };
   });
 
   $: shouldCollapse = state => {

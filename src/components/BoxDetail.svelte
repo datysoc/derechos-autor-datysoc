@@ -47,7 +47,7 @@
     find(categories, { id: categoryId });
 
   $: collapsedCategories = map(countryDetails.categories, (cat, idx) => {
-    return { categoryId: cat.id, isCollapsed: idx !==0 };
+    return { categoryId: cat.id, isCollapsed: true };
   });
 
   $: shouldCollapse = categoryId => {

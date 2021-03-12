@@ -9,7 +9,7 @@
   export let details = [];
 
   $: collapsedState = map(details, (detail, idx) => (
-    { id: detail.id, isCollapsed: idx !== 0 }));
+    { id: detail.id, isCollapsed: true }));
 
   const toggleCollapse = catId => {
     const [catToToggle, others] = partition(collapsedState, catToFilter => catToFilter.id === catId);
