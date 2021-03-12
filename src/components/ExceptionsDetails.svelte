@@ -61,7 +61,7 @@
       <p class="stateLabel">
         <span>• {subcategoryFor(exception.id).label}</span>
         <br />
-        <span class="exceptionState">( {stateLabelFor(exception.state).name} )</span>
+        <span class="exceptionState">( {stateLabelFor(exception.state).state} )</span>
       </p>
       {#if !isEmpty(exception.norms)}
         <button

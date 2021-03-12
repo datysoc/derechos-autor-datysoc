@@ -29,7 +29,7 @@ export const UICOLORS = {
 };
 
 export const STATE_COlORS = {
-  suficient: COLORS.green,
-  insuficient: COLORS.yellow,
-  inexistent: COLORS.red,
+  suficiente: COLORS.green,
+  insuficiente: COLORS.yellow,
+  noExiste: COLORS.red,
 };
