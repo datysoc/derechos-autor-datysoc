@@ -435,7 +435,7 @@ export const countriesLaws = [
     ]
   },
   {
-    id: "Brasil",
+    id: "Brazil",
     name: "Brasil",
     categories: [
       {

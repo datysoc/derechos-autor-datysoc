@@ -2,15 +2,13 @@
   import {slide} from 'svelte/transition';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Icon from 'svelte-awesome';
-  import { flatten, partition, map, isEmpty } from 'lodash';
+  import { cloneDeep, find, flatten, partition, map, isEmpty } from 'lodash';
   import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
   import { COLORS, UICOLORS } from '../resources/colors';
 
   export let categories = {};
   export let itemsChecked = [];
   export let onChecked;
-
-  const SELECT_ALL = 'selectAll';
 
   const possibleFilters = flatten(map(categories, cat =>
     map(cat.items, subcat => `${cat.id}_${subcat.id}`)));
@@ -22,27 +20,40 @@
 
 
     if (isEmpty(preExistenItem)) {
-      const itemsToFilter = (itemChecked === SELECT_ALL) ? [...possibleFilters] : otherItems;
-
-      itemsToFilter.push(itemChecked);
-
-      onChecked(itemsToFilter);
-    } else {
-      onChecked((itemChecked === SELECT_ALL) ? [] : otherItems);
+      otherItems.push(itemChecked);
     }
+
+      onChecked(otherItems);
   };
 
-  let collapsedState = map(categories, category => {
-    return { id: category.id, isCollapsed: false };
+  let collapsedState = map(categories, (category, idx) => {
+    return { id: category.id, isCollapsed: idx > 0 };
   });
 
   const toggleCollapse = catId => {
-    const [catToToggle, others] = partition(collapsedState, catToFilter => catToFilter.id === catId);
-    const { isCollapsed: prevState = false } = catToToggle[0] || {};
+    const collapsedStateToModify = map(collapsedState, colState => {
+      const isThisCatagory = colState.id === catId;
+      const isCollapsed = isThisCatagory ? !colState.isCollapsed : true;
 
-    others.push({ id: catId, isCollapsed: !prevState })
+      if (isThisCatagory && isCollapsed) {
+        onChecked([]);
+      }
 
-    collapsedState = others;
+      if (!isCollapsed) {
+        const { items } = find(categories, { id: colState.id });
+
+        const categoryToSelect = map(items, item => `${colState.id}_${item.id}`);
+
+        onChecked(categoryToSelect);
+      }
+
+      return {
+        id: colState.id,
+        isCollapsed,
+      };
+    });
+
+    collapsedState = collapsedStateToModify;
   };
 
   $: categoryGroup = css`
@@ -57,26 +68,14 @@
     padding: 0 8px;
   `;
 
-  $: selectAll = css`
-    background-color: ${COLORS.lighGray20};
-    margin-bottom: 18px;
-    padding: 2px 8px;
-    border-radius: 4px;
-  `;
-
-  $: selectAllLabel = css`
-    font-family: "Space Mono", Arial;
-    font-weight: 500;
-  `;
-
   $: categoryContainer = css`
     align-items: center;
     display: flex;
     justify-content: space-between;
   `;
 
-  $: categoryLabel = css`
-    color: ${COLORS.gray20};
+  $: categoryLabel = isCollapsed => css`
+    color: ${isCollapsed ? COLORS.lighGray5 : COLORS.gray};
     font-size: 20px;
     font-weight: 500;
     margin: 3px 0;
@@ -117,39 +116,19 @@
   `;
 
   $: shouldCollapse = categoryId => {
-    const { isCollapsed = false } = collapsedState.find(cat => cat.id === categoryId) || {};
+    const { isCollapsed = false } = find(collapsedState, cat => cat.id === categoryId) || {};
 
     return isCollapsed;
   };
 
-  $: isChecked = itemValue => !!itemsChecked.find(itemChecked => itemChecked === itemValue);
+  $: isChecked = itemValue => !!find(itemsChecked, itemChecked => itemChecked === itemValue);
 </script>
 
 <div class="filtersContainer">
-  <div class={categoryGroup}>
-    <label for={'category_selectAll'} class={`${categoryContainer} ${selectAll}`}>
-      <span class={`${categoryLabel} ${selectAllLabel}`}>Seleccionar Todo</span>
-
-      <span>
-        <input
-          id={'category_selectAll'}
-          type="checkbox"
-          class="radioInput"
-          checked={isChecked(SELECT_ALL)}
-          name={SELECT_ALL}
-          on:change={toggleChecked}
-          value={SELECT_ALL}
-        />
-          <div class={radioControl}>
-            <div class={`${isChecked(SELECT_ALL) ? radioControlChecked : ''}`} />
-          </div>
-        </span>
-    </label>
-  </div>
   {#each categories as category (category.id)}
     <div class={`${categoryGroup} ${categoriesToSelect}`}>
       <div class={categoryContainer}>
-        <p class={categoryLabel}>
+        <p class={categoryLabel(shouldCollapse(category.id))}>
           <span>{category.value}</span>
         </p>
         <button
@@ -163,7 +142,7 @@
           <Icon
             data={faAngleDown}
             scale={1.5}
-            style={`color: ${shouldCollapse(category.id) ? COLORS.gray20 : COLORS.gray}`}
+            style={`color: ${shouldCollapse(category.id) ? COLORS.lighGray20 : COLORS.gray}`}
           />
         </button>
       </div>

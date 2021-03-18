@@ -1,5 +1,13 @@
 <script>
-  import { find, flatten, filter, groupBy, isEmpty, map } from 'lodash';
+  import {
+    find,
+    flatten,
+    filter,
+    first,
+    groupBy,
+    isEmpty,
+    map,
+  } from 'lodash';
   import {slide} from 'svelte/transition';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Map from '../components/Map.svelte';
@@ -68,6 +76,10 @@
   $: filtersSelectedWithCountries = [];
 
   $: itemsChecked = [];
+
+  const firstCategory = first(categories);
+  $: itemsChecked = map(firstCategory.items, item => `${firstCategory.id}_${item.id}`);
+
   $: countryId = '';
 
   const shouldShowDetails = countryName => {
@@ -129,10 +141,18 @@
     right: 0;
     padding: 8px;
   `;
+
+  $: filters = css`
+    width: 300px;
+    height: calc(100vh - 68px);
+    overflow: hidden;
+    overflow-y: auto;
+    background-color: ${COLORS.lighGray30};
+  `;
 </script>
 
 <main class="container">
-  <div class="filters">
+  <div class={filters}>
     <Radio
       categories={categories}
       itemsChecked={itemsChecked}
@@ -163,13 +183,6 @@
 <style>
   .container {
     display: flex;
-  }
-
-  .filters {
-    width: 300px;
-    height: calc(100vh - 68px);
-    overflow: hidden;
-    overflow-y: auto;
   }
 
   .map {

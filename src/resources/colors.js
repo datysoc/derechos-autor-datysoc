@@ -5,8 +5,10 @@ export const COLORS = {
   gray10: '#646464',
   gray20: '#858585',
   lighGray: '#8c8c8c',
+  lighGray5: '#b5b5b5',
   lighGray10: '#c4c4c4',
   lighGray20: '#cecece',
+  lighGray30: '#ededed',
 
   transparentGray10: 'rgba(98, 98, 98, 0.8);',
 
