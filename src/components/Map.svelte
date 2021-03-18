@@ -1,14 +1,6 @@
 <script>
   import { beforeUpdate } from 'svelte';
-  import {
-    countBy,
-    find,
-    flatten,
-    forEach,
-    last,
-    map,
-    reduce,
-  } from 'lodash';
+  import { map } from 'lodash';
   import { Map, controls } from '@beyonk/svelte-mapbox'
   import { COLORS, STATE_COlORS } from '../resources/colors';
 
@@ -20,16 +12,6 @@
   const { ScaleControl } = controls
 
   let mapComponent;
-
-  const heatmapCountriesIds = map(countriesInStudy, countryName => ({
-    heatmapCountryId: `countries-fills-heatmap-${countryName}`,
-    countryName,
-  }));
-
-  $: heatmapIdsHighlighted = map(heatmapCountriesIds, heatmapCountry => ({
-    ...heatmapCountry,
-    highlighted: !!find(filtersSelectedWithCountries, { country: heatmapCountry.countryName }),
-  }));
 
   const onMapReady = () => {
     mapComponent.getMap().addSource("countries", {
@@ -49,33 +31,6 @@
         'any',
         ...map(countriesInStudy, countryName => ['==', 'NAME', countryName])
       ],
-    });
-
-    forEach(heatmapCountriesIds, ({ heatmapCountryId }) => {
-      mapComponent.getMap().addLayer({
-        id: heatmapCountryId,
-        type: 'heatmap',
-        source: 'countries',
-        paint: {
-          // increase weight as diameter breast height increases
-          'heatmap-weight': 1,
-          // increase radius as zoom increases
-          'heatmap-radius': {
-            stops: [
-              [0, 30],
-            ]
-          },
-          // decrease opacity to transition into the circle layer
-          'heatmap-opacity': {
-            default: 0.6,
-            stops: [
-              [14, 0.6],
-              [15, 0.6]
-            ]
-          },
-        },
-        filter: ['==', 'NAME', ''],
-      });
     });
 
     mapComponent.getMap().addLayer({
@@ -105,69 +60,11 @@
     }
   };
 
-  const toggleHeatmapFor = ({ filterId, country, isOn }) => {
-    const { states = [] } = find(filtersSelectedWithCountries, { country }) || {};
-
-    const statesCount = countBy(states, state => state);
-
-    const a = map(statesCount, (stateCount, state) => [
-      stateCount/states.length,
-      STATE_COlORS[state],
-    ]);
-
-    const densityValues = flatten(reduce(statesCount, (densityColors, stateCount, state) => {
-      const [lastRange = 0] = last(densityColors) || [];
-      const range = (stateCount/states.length) + lastRange;
-
-      densityColors.push([
-        range,
-        STATE_COlORS[state],
-      ]);
-
-      return densityColors;
-    }, []));
-
-    if (isOn) {
-      mapComponent
-        .getMap()
-        .setFilter(filterId, [
-          '==', 'NAME', country
-        ])
-        .setPaintProperty(
-          filterId,
-          'heatmap-color',
-          [
-            'interpolate',
-            ['linear'],
-            ['heatmap-density'],
-            0, 'rgba(236,222,239,0)',
-            ...densityValues
-          ]
-        );
-    } else {
-      mapComponent
-        .getMap()
-        .setFilter(filterId, ['==', 'NAME', '']);
-    }
-  };
-
   beforeUpdate(() => {
     if (mapComponent && mapComponent.getMap()) {
       mapComponent
         .getMap()
         .setFilter('country-fill', ['==', 'NAME', countryToToggle]);
-
-      forEach(heatmapIdsHighlighted, heatmapIdHighlighted => {
-        const { countryName, heatmapCountryId, highlighted } = heatmapIdHighlighted;
-
-        const isOn = countryToToggle ? countryName === countryToToggle : highlighted;
-
-        toggleHeatmapFor({
-          filterId: heatmapCountryId,
-          country: countryName,
-          isOn,
-        });
-      });
     }
   });
 </script>
