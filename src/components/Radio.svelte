@@ -31,6 +31,10 @@
   });
 
   const toggleCollapse = catId => {
+    const currentCategory = find(collapsedState, { id: catId, isCollapsed: false });
+
+    if (currentCategory) return;
+
     const collapsedStateToModify = map(collapsedState, colState => {
       const isThisCatagory = colState.id === catId;
       const isCollapsed = isThisCatagory ? !colState.isCollapsed : true;

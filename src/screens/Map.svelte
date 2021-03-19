@@ -31,7 +31,10 @@
 
     if (isEmpty(checkedValues)) {
       slideDetails = false;
-    }
+    } else {
+      const [categoryIdToUse] = first(checkedValues).split('_');
+      currentCategory = categoryIdToUse;
+    };
 
     checkedFilters = map(checkedValues, checkedValue => {
       const [categoryId, subcategoryId] = checkedValue.split('_');
@@ -87,10 +90,10 @@
     slideDetails = !!countryName;
 
     if (countryName && isEmpty(checkedFilters)) {
-      const allFilters = flatten(map(categories, cat =>
-        map(cat.items, subcat => `${cat.id}_${subcat.id}`)));
+      const categoryToSelect = find(categories, { id: currentCategory });
+      const allFilters = map(categoryToSelect.items, item => `${categoryToSelect.id}_${item.id}`);
 
-      onChecked(['selectAll', ...allFilters]);
+      onChecked(allFilters);
     }
   };
 
@@ -129,6 +132,8 @@
       categories,
     };
   };
+
+  $: currentCategory = first(categories).id;
 
   $: boxContainer = css`
     background-color: ${COLORS.transparentGray10};
