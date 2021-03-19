@@ -7,7 +7,6 @@
   export let countriesInStudy;
   export let onCountrySelected;
   export let countryToToggle = '';
-  export let filtersSelectedWithCountries = [];
 
   const { ScaleControl } = controls
 

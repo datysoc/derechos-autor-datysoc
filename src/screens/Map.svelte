@@ -41,42 +41,7 @@
 
       return { categoryId, subcategoryId };
     });
-
-    const groupedFilters = map(
-      groupBy(checkedFilters, checkedFilter => checkedFilter.categoryId),
-      groupedFilter => {
-        const { categoryId } = groupedFilter[0];
-
-        const subcategories = map(groupedFilter, aGroupedFilter => aGroupedFilter.subcategoryId);
-
-        return { categoryId, subcategories };
-      }
-    );
-
-    const countriesWithExceptionsStates = map(countriesLaws, countryLaw => {
-      const states = map(groupedFilters, groupedFilter => {
-        const { categoryId, subcategories } = groupedFilter;
-
-        const { exceptions = [] } = find(countryLaw.categories, { id: categoryId }) || {};
-
-        const countryWithExceptions = filter(exceptions, exception =>
-          !!find(subcategories, subcat => subcat === exception.id));
-
-        return map(countryWithExceptions, countryWithException => countryWithException.state);
-      });
-
-      return { country: countryLaw.id, states: flatten(states) };
-    });
-
-    filtersSelectedWithCountries = filter(countriesWithExceptionsStates, countryWithException =>
-      !isEmpty(countryWithException.states));
-
-    if (isEmpty(filtersSelectedWithCountries)) {
-      countryId = '';
-    }
   };
-
-  $: filtersSelectedWithCountries = [];
 
   $: itemsChecked = [];
 
@@ -170,7 +135,6 @@
       countriesInStudy={countriesInStudy}
       onCountrySelected={shouldShowDetails}
       countryToToggle={countryId}
-      filtersSelectedWithCountries={filtersSelectedWithCountries}
     />
     {#if slideDetails}
       <div class={boxContainer} transition:horizontalSlide={{ duration: 500 }}>
