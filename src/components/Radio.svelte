@@ -2,7 +2,7 @@
   import {slide} from 'svelte/transition';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Icon from 'svelte-awesome';
-  import { cloneDeep, find, flatten, partition, map, isEmpty } from 'lodash';
+  import { cloneDeep, find, first, flatten, map } from 'lodash';
   import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
   import { COLORS, UICOLORS } from '../resources/colors';
 
@@ -16,14 +16,12 @@
   const toggleChecked = e => {
     const itemChecked = e.currentTarget.value;
 
-    const [preExistenItem, otherItems] = partition(itemsChecked, anItem => anItem === itemChecked);
+    const preExistenItem = find(itemsChecked, anItem => anItem === itemChecked) || null;
 
 
-    if (isEmpty(preExistenItem)) {
-      otherItems.push(itemChecked);
+    if (!preExistenItem) {
+      onChecked([itemChecked])
     }
-
-      onChecked(otherItems);
   };
 
   let collapsedState = map(categories, (category, idx) => {
@@ -39,16 +37,10 @@
       const isThisCatagory = colState.id === catId;
       const isCollapsed = isThisCatagory ? !colState.isCollapsed : true;
 
-      if (isThisCatagory && isCollapsed) {
-        onChecked([]);
-      }
-
       if (!isCollapsed) {
         const { items } = find(categories, { id: colState.id });
 
-        const categoryToSelect = map(items, item => `${colState.id}_${item.id}`);
-
-        onChecked(categoryToSelect);
+        onChecked([`${colState.id}_${first(items).id}`]);
       }
 
       return {
@@ -107,14 +99,14 @@
     display: flex;
     width: 1em;
     height: 1em;
-    border-radius: 4px;
+    border-radius: 50%;
     border: 0.1em solid ${UICOLORS.mainChecked};
     padding: 1px 1px 2px 2px;
   `;
 
   $: radioControlChecked = css`
     background-color: ${UICOLORS.mainChecked};
-    border-radius: 2px;
+    border-radius: 50%;
     width: 1em;
     height: 1em;
   `;
@@ -159,9 +151,8 @@
               <span>
                 <input
                   id={`category_${item.id}`}
-                  type="checkbox"
+                  type="radio"
                   class="radioInput"
-                  checked={isChecked(`${category.id}_${item.value}`)}
                   name={category.id}
                   on:change={toggleChecked}
                   value={`${category.id}_${item.value}`}

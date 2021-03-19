@@ -26,40 +26,72 @@
 
   let checkedFilters = [];
 
-  const onChecked = checkedValues => {
-    itemsChecked = checkedValues;
-
-    if (isEmpty(checkedValues)) {
-      slideDetails = false;
-    } else {
-      const [categoryIdToUse] = first(checkedValues).split('_');
-      currentCategory = categoryIdToUse;
-    };
-
+  const countriesWithExceptionsStates = (checkedValues) => {
     checkedFilters = map(checkedValues, checkedValue => {
       const [categoryId, subcategoryId] = checkedValue.split('_');
 
       return { categoryId, subcategoryId };
     });
+    
+    const groupedFilters = map(
+      groupBy(checkedFilters, checkedFilter => checkedFilter.categoryId),
+      groupedFilter => {
+        const { categoryId } = groupedFilter[0];
+
+        const subcategories = map(groupedFilter, aGroupedFilter => aGroupedFilter.subcategoryId);
+
+        return { categoryId, subcategories };
+      }
+    );
+
+    return map(countriesLaws, countryLaw => {
+      const states = map(groupedFilters, groupedFilter => {
+        const { categoryId, subcategories } = groupedFilter;
+
+        const { exceptions = [] } = find(countryLaw.categories, { id: categoryId }) || {};
+
+        const countryWithExceptions = filter(exceptions, exception =>
+          !!find(subcategories, subcat => subcat === exception.id));
+
+        return map(countryWithExceptions, countryWithException => countryWithException.state);
+      });
+
+      return { country: countryLaw.id, states: flatten(states) };
+    });
   };
 
-  $: itemsChecked = [];
+  const onChecked = checkedValues => {
+    itemsChecked = checkedValues;
+
+    if (isEmpty(checkedValues)) {
+      slideDetails = false;
+      countryId = '';
+    } else {
+      const [categoryIdToUse] = first(checkedValues).split('_');
+      currentCategory = categoryIdToUse;
+    };
+
+    filtersSelectedWithCountries = filter(countriesWithExceptionsStates(checkedValues), countryWithException =>
+      !isEmpty(countryWithException.states));
+
+    if (isEmpty(filtersSelectedWithCountries)) {
+      countryId = '';
+    }
+  };
 
   const firstCategory = first(categories);
-  $: itemsChecked = map(firstCategory.items, item => `${firstCategory.id}_${item.id}`);
+  const firstItemChecked = `${firstCategory.id}_${first(firstCategory.items).id}`;
+
+  $: itemsChecked = [firstItemChecked];
+
+  $: filtersSelectedWithCountries = filter(countriesWithExceptionsStates([firstItemChecked]), countryWithException =>
+      !isEmpty(countryWithException.states));
 
   $: countryId = '';
 
   const shouldShowDetails = countryName => {
-    countryId = countryName;
-    slideDetails = !!countryName;
-
-    if (countryName && isEmpty(checkedFilters)) {
-      const categoryToSelect = find(categories, { id: currentCategory });
-      const allFilters = map(categoryToSelect.items, item => `${categoryToSelect.id}_${item.id}`);
-
-      onChecked(allFilters);
-    }
+    countryId = countryId === countryName ? '' : countryName;
+    slideDetails = countryId === countryName;
   };
 
   const onClose = () => {
@@ -135,6 +167,7 @@
       countriesInStudy={countriesInStudy}
       onCountrySelected={shouldShowDetails}
       countryToToggle={countryId}
+      filtersSelectedWithCountries={filtersSelectedWithCountries}
     />
     {#if slideDetails}
       <div class={boxContainer} transition:horizontalSlide={{ duration: 500 }}>
