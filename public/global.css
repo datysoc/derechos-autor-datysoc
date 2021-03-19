@@ -26,6 +26,11 @@ a:visited {
 	color: rgb(0,80,160);
 }
 
+a[aria-current="page"] {
+  font-weight: 500;
+    font-size: 22px;
+}
+
 label {
 	display: block;
 }

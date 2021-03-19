@@ -1,27 +1,34 @@
 <script>
+  import { Link } from "svelte-routing";
+  import { map } from 'lodash';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import { COLORS, UICOLORS } from '../resources/colors';
 
-  const menuItems = [
+  $: menuItems = [
     {
       id: 'home',
       label: 'Inicio',
-      route: '/#',
-      isSelected: false,
+      route: '/',
     },
     {
       id: 'map',
       label: 'Mapa',
-      route: '/#',
-      isSelected: true,
+      route: '/map',
     },
     {
       id: 'glossary',
       label: 'Glosario',
-      route: '/#',
-      isSelected: false,
+      route: '/glossary',
     },
   ];
+
+  const getLinkProps = ({ isCurrent }) => {
+    if (isCurrent) {
+      return { class: 'active-link' };
+    }
+
+    return { class: 'regular-link' };
+  };
 
   $: header = css`
     width: 100%;
@@ -32,8 +39,8 @@
     align-items: center;
   `;
 
-  $: link = isSelected => css`
-    font-weight: ${isSelected ? '500' : '300'};
+  $: link = css`
+    font-weight: 300;
     font-size: 20px;
     color: ${UICOLORS.mainLink};
 
@@ -49,7 +56,7 @@
 
 <header class={header}>
   <a class="logo" href="/" alt="go to home">
-      <img src='images/logo.png' class="logo-icon" alt="logo" />
+    <img src='/images/logo.png' class="logo-icon" alt="logo" />
       <div class={`isotype ${anchorColor}`}>
         <span>Flexibilidades al derecho</span>
         <span>de autor en América Latina</span>
@@ -59,9 +66,13 @@
   <ul class='menu'>
     {#each menuItems as item (item.id)}
       <li class='menu-item'>
-        <a href={item.route} class={link(item.isSelected)} >
+        <Link
+          to={item.route}
+          class={link}
+          getProps={getLinkProps}
+        >
           <span>{item.label}</span>
-        </a>
+        </Link>
       </li>
     {/each}
   </ul>
@@ -71,12 +82,15 @@
   .menu {
     list-style: none;
     display: flex;
+    justify-content: flex-end;
     margin: 0 40px;
+    width: 60%;
   }
 
   .menu-item {
     margin: 0 12px;
     padding: 8px;
+    width: 76px;
   }
 
   .logo {
