@@ -114,7 +114,7 @@
         .setPaintProperty(
           filterId,
           'fill-opacity',
-          0.4,
+          0.5,
         );
     } else {
       mapComponent
@@ -122,7 +122,7 @@
         .setPaintProperty(
           filterId,
           'fill-opacity',
-          0.05,
+          0.2,
         );
     }
   };
