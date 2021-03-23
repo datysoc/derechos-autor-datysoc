@@ -24,6 +24,8 @@
   const subcategoryFor = subcategoryId =>
     find(categoryDesc, { id: subcategoryId });
 
+  const colorToUse = state =>
+    state === 'insuficiente' ? COLORS.gray20 : COLORS.white;
 
   $: stateIndicator = state => css`
     background-color: ${STATE_COlORS[state]};
@@ -58,7 +60,10 @@
 {#each exceptions as exception (exception.id)}
   <div class={stateDetailsContainer(exception.state)}>
     <div class={stateIndicator(exception.state)}>
-      <p class="stateLabel">
+      <p
+        class=stateLabel
+        style={`color: ${colorToUse(exception.state)}`}
+      >
         <span>• {subcategoryFor(exception.id).label}</span>
         <br />
         <span class="exceptionState">( {stateLabelFor(exception.state).state} )</span>
@@ -75,7 +80,7 @@
           <Icon
             data={faAngleDown}
             scale={1.5}
-            style={`color: ${COLORS.white}`}
+            style={`color: ${colorToUse(exception.state)}`}
           />
         </button>
       {/if}
@@ -96,7 +101,6 @@
   }
 
   .stateLabel {
-    color: white;
     font-weight: 500;
     font-size: 1.2em;
   }
