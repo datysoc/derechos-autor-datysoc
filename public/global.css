@@ -28,7 +28,8 @@ a:visited {
 
 a[aria-current="page"] {
   font-weight: 500;
-    font-size: 22px;
+  font-size: 18px;
+  color: #2489cf !important;
 }
 
 label {

@@ -138,7 +138,7 @@
     border-bottom-left-radius: 12px;
     position: absolute;
     width: 400px;
-    height: calc(100vh - 92px);
+    height: 100vh;
     top: 69px;
     right: 0;
     padding: 8px;
@@ -146,10 +146,11 @@
 
   $: filters = css`
     width: 300px;
-    height: calc(100vh - 68px);
+    height: 100vh;
     overflow: hidden;
     overflow-y: auto;
     background-color: ${COLORS.lighGray30};
+    padding-top: 68px;
   `;
 </script>
 
@@ -189,7 +190,7 @@
 
   .map {
     width: calc(100% - 300px);
-    height: calc(100vh - 68px);
+    height: 100vh;
   }
 </style>
 

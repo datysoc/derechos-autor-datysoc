@@ -11,6 +11,8 @@ export const COLORS = {
   lighGray30: '#ededed',
 
   transparentGray10: 'rgba(98, 98, 98, 0.8);',
+  transparentGray20: 'rgba(98, 98, 98, 0.6);',
+  transparentGray30: 'rgba(98, 98, 98, 0.4);',
 
   transparentWhite10: 'rgba(255, 255, 255, 0.1)',
 
