@@ -9,6 +9,7 @@ export const COLORS = {
   lighGray10: '#c4c4c4',
   lighGray20: '#cecece',
   lighGray30: '#ededed',
+  lighGray40: '#efefef',
 
   transparentGray10: 'rgba(98, 98, 98, 0.8);',
   transparentGray20: 'rgba(98, 98, 98, 0.6);',

@@ -94,7 +94,10 @@
     slideDetails = countryId === countryName;
   };
 
-  const onClose = () => {
+  const onClose = e => {
+    e.preventDefault();
+    e.stopPropagation();
+
     countryId = '';
     slideDetails = false;
   };
@@ -139,9 +142,10 @@
     position: absolute;
     width: 400px;
     height: 100vh;
-    top: 69px;
+    top: 0;
     right: 0;
     padding: 8px;
+    z-index: 20;
   `;
 
   $: filters = css`

@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { Link } from "svelte-routing";
   import Icon from 'svelte-awesome';
-  import { faHome, faGlobeAmericas, faBookOpen } from '@fortawesome/free-solid-svg-icons';
+  import { faCloudDownloadAlt, faHome, faGlobeAmericas, faBookOpen } from '@fortawesome/free-solid-svg-icons';
   import { map, findIndex } from 'lodash';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import { COLORS, UICOLORS } from '../resources/colors';
@@ -60,7 +60,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
+    position: ${activeLink === 'map' ? 'fixed' : 'relative'};
     top: 0;
     left: 0;
     z-index: 9;
@@ -93,6 +93,29 @@
 
   $: anchorColor = css`
     color: ${COLORS.gray};
+  `;
+
+  $:downloadContainer = css`
+    background-color: ${COLORS.gray};
+    height: 48px;
+    width: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 28px 0 0;
+    border-radius: 6px;
+  `;
+
+  $: downloadButton = css`
+    color: ${COLORS.white} !important;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      text-decoration: none;
+    }
   `;
 </script>
 
@@ -132,6 +155,24 @@
       </li>
     {/each}
   </ul>
+
+  <div class={downloadContainer}>
+    <a href="/map" _target="blank" class={downloadButton}>
+      <Icon
+        data={faCloudDownloadAlt}
+        scale={1.8}
+        style={`
+          color: ${COLORS.white};
+          border: 0;
+          background-color: transparent;
+          margin-right: 12px;
+        `}
+      />
+      <span>
+        Informe
+      </span>
+    </a>
+  </div>
 </header>
 
 <style var-prefix='--ds-'>
