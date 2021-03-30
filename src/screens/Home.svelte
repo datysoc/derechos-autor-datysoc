@@ -1,27 +1,36 @@
 <script>
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Icon from 'svelte-awesome';
-  import { faBookOpen, faMicrophoneAlt, faFileAlt } from '@fortawesome/free-solid-svg-icons';
+  import {
+    faBookOpen,
+    faMicrophoneAlt,
+    faFileAlt,
+    faExternalLinkAlt,
+    faUnlockAlt,
+  } from '@fortawesome/free-solid-svg-icons';
   import { COLORS, STATE_COlORS } from '../resources/colors';
 
   const highlightsInfo = [
     {
-      question: 'Por qué importa?',
+      question: '¿Por qué importa?',
       icon: faFileAlt,
       iconColor: COLORS.green,
       answer: 'Accede al informe',
+      link: '/#',
     },
     {
-      question: 'Qué se discute?',
+      question: '¿Qué se discute?',
       icon: faMicrophoneAlt,
       iconColor: COLORS.pink,
       answer: 'Escucha el podcast',
+      link: '/#',
     },
     {
-      question: 'Excepciones?',
+      question: 'Excepciones',
       icon: faBookOpen,
       iconColor: COLORS.orange,
       answer: 'Conoce el glosario',
+      link: '/#',
     },
   ];
 
@@ -44,8 +53,11 @@
   `;
 
   $: highlightButton = css`
+    color: ${COLORS.white} !important;
     background-color: ${COLORS.blue};
-    padding: 0 8px;
+    padding: 0 24px;
+    width: 110px;
+    position: relative;
 
     &:hover {
       text-decoration: none;
@@ -84,16 +96,51 @@
     border-top: solid 1px ${COLORS.orange};
     display: flex;
     flex-direction: column;
-    height: 350px;
     width: 100%;
     padding: 0 0 18px;
   `;
 
-  $: datysocCopy = css`
+  $: logosDescription = css`
+    font-size: 22px;
+    font-family: "Space Mono", serif, arial;
     color: ${COLORS.gray};
-    font-size: 20px;
+  `;
+
+  $: ccTitle = css`
+    color: ${COLORS.gray};
+    font-size: 12px;
     text-align: center;
     margin: 0;
+    text-align: center;
+
+    & > img {
+      margin-top: 8px;
+    }
+  `;
+
+  $: logos = css`
+    display: flex;
+  `;
+
+  $: logosDetail = css`
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 175px;
+  `;
+
+  $: privacyPolicy = css`
+    color: ${COLORS.gray} !important;
+    font-size: 16px;
+    text-align: center;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    & > svg {
+      margin-top: 8px;
+    }
   `;
 </script>
 
@@ -107,7 +154,7 @@
         <span class={highlight('suficiente')}>Latinoamérica</span>
       </span>
       <span class={conclusion}>
-        Necesitamos incidir en como se aplica la ley
+        Necesitamos incidir en evolucionar a<br/>nuevas políticas públicas
       </span>
     </p>
   </div>
@@ -123,7 +170,7 @@
   <div class="highlights">
     {#each highlightsInfo as info (info.question)}
       <a
-        href="https://google.com"
+        href={info.link}
         _target="blank"
         class={highlightBox}
       >
@@ -155,11 +202,26 @@
 
   <div class='boxWithImage boxWithImage-map'>
     <p class='intro'>
-      <span class={headline}>
+      <span class={`${headline} boxWithImage-map-headline`}>
         Explora las 
         <span class={highlight('suficiente')}>flexibilidades</span>
         y las <span class={highlight('insuficiente')}>excepciones</span>
-        en nuestro <a href="/map" class={highlightButton}>mapa</a>
+        <br/>de <span class={highlight('noExiste')}>Latam</span> en nuestro
+        <a href="/mapa" class={highlightButton}>
+          <span>mapa</span>
+          <Icon
+            data={faExternalLinkAlt}
+            scale={0.9}
+            style={`
+              color: ${COLORS.white};
+              border: 0;
+              background-color: transparent;
+              position: absolute;
+              top: 2px;
+              right: 4px;
+            `}
+          />
+        </a>
       </span>
     </p>
   </div>
@@ -171,16 +233,76 @@
 
 <footer class={datysocFooter}>
   <div class="associated-logos">
-    <div class="logo logo-1" />
+    <div class={logosDetail}>
+      <p class={logosDescription}>Un proyecto de</p>
+      <div class={logos}>
+        <img
+          src='/images/datysocLogo.png'
+          alt='datysoc logo'
+          class='logo logo-datysoc'
+        />
 
-    <div class="logo logo-2" />
+        <img
+          src='/images/karismaLogo.png'
+          alt='karisma logo'
+          class='logo logo-karisma'
+        />
+      </div>
+    </div>
 
-    <div class="logo logo-3" />
+    <div class={logosDetail}>
+      <p class={logosDescription}>Apoyado por</p>
+      <div class={logos}>
+        <img
+          src='/images/indelaLogo.png'
+          alt='indela logo'
+          class='logo logo-indela'
+        />
+
+        <div class="logo logo-4 ONU" />
+      </div>
+    </div>
   </div>
 
-  <p class={datysocCopy}>
-    DATYSOC 2021
-  </p>
+  <div
+    class="dividers dividers-center"
+    style="margin: 0 0 22px;"
+  >
+    <div class={`divider divider-center ${dividerColorBlue}`} />
+  </div>
+
+  <div class="footer-cc-privacy">
+    <p class={ccTitle}>
+      <span>
+        Licencia Creative Commons 4.0
+      </span>
+      <br/>
+      <img
+        src='/images/CC-BY-SA_icon.png'
+        alt='indela logo'
+        class='logo-cc'
+      />
+    </p>
+
+    <a
+      class={privacyPolicy}
+      href="/politica-privacidad"
+    >
+      <Icon
+        data={faUnlockAlt}
+        scale={1.3}
+        style={`
+          color: ${COLORS.gray};
+          border: 0;
+          background-color: transparent;
+        `}
+      />
+      <br/>
+      <span>
+        Política de privacidad
+      </span>
+    </a>
+  </div>
 </footer>
 
 <style>
@@ -200,7 +322,12 @@
     padding: 48px 40px 10px;
     width: 100%;
     align-items: center;
+    justify-content: center;
     text-align: center;
+  }
+
+  .boxWithImage-map-headline {
+    line-height: 86px;
   }
 
   .intro {
@@ -269,15 +396,34 @@
     align-items: center;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    height: 330px;
+    justify-content: space-evenly;
+    padding: 42px 0;
   }
 
   .logo {
-    border-radius: 8px;
-    background-color: #bebebe;
-    height: 200px;
-    width: 200px;
     margin: 12px 16px;
+  }
+
+  .logo-datysoc {
+    height: 60px;
+  }
+
+  .logo-indela {
+    margin-top: 30px;
+    width: 200px;
+  }
+
+  .logo-karisma {
+    height: 70px;
+  }
+
+  .footer-cc-privacy {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 28px;
+  }
+
+  .logo-cc {
+    widht: 80px;
   }
 </style>

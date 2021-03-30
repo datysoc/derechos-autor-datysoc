@@ -15,15 +15,15 @@
       icon: faHome,
     },
     {
-      id: 'map',
+      id: 'mapa',
       label: 'Mapa',
-      route: '/map',
+      route: '/mapa',
       icon: faGlobeAmericas,
     },
     {
       id: 'glossary',
       label: 'Glosario',
-      route: '/glossary',
+      route: '/glosario',
       icon: faBookOpen,
     },
   ];
@@ -60,7 +60,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: ${activeLink === 'map' ? 'fixed' : 'relative'};
+    position: ${activeLink === 'mapa' ? 'fixed' : 'relative'};
     top: 0;
     left: 0;
     z-index: 9;
@@ -157,7 +157,7 @@
   </ul>
 
   <div class={downloadContainer}>
-    <a href="/map" _target="blank" class={downloadButton}>
+    <a href="/#" _target="blank" class={downloadButton}>
       <Icon
         data={faCloudDownloadAlt}
         scale={1.8}

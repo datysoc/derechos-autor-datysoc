@@ -4,6 +4,7 @@
 
   import Home from './screens/Home.svelte';
   import Map from './screens/Map.svelte';
+  import PrivacyPolicy from './screens/PrivacyPolicy.svelte';
 
   export let url = '';
 </script>
@@ -12,8 +13,12 @@
   <Router url={url}>
     <Header />
 
-    <Route path="/map">
+    <Route path="/mapa">
       <Map />
+    </Route>
+
+    <Route path="/politica-privacidad">
+      <PrivacyPolicy />
     </Route>
 
     <Route path="/">
