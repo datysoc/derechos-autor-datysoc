@@ -12,7 +12,7 @@
 
   const highlightsInfo = [
     {
-      question: '¿Por qué importa?',
+      question: '¿Cuál es la situación?',
       icon: faFileAlt,
       iconColor: COLORS.green,
       answer: 'Accede al informe',
@@ -22,7 +22,7 @@
       question: '¿Qué se discute?',
       icon: faMicrophoneAlt,
       iconColor: COLORS.pink,
-      answer: 'Escucha el podcast',
+      answer: 'Escucha los podcasts',
       link: '/#',
     },
     {
@@ -38,7 +38,7 @@
     color: ${COLORS.gray};
     font-size: 36px;
     font-family: "Space Mono", serif, arial;
-    line-height: 60px;
+    line-height: 68px;
   `;
 
   $: conclusion = css`
@@ -106,18 +106,6 @@
     color: ${COLORS.gray};
   `;
 
-  $: ccTitle = css`
-    color: ${COLORS.gray};
-    font-size: 12px;
-    text-align: center;
-    margin: 0;
-    text-align: center;
-
-    & > img {
-      margin-top: 8px;
-    }
-  `;
-
   $: logos = css`
     display: flex;
   `;
@@ -128,6 +116,22 @@
     flex-direction: column;
     height: 175px;
   `;
+
+  $: ccTitle = css`
+    color: ${COLORS.gray} !important;
+    font-size: 12px;
+    text-align: center;
+    margin: 0;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    & > img {
+      margin-top: 8px;
+    }
+  `;
+
 
   $: privacyPolicy = css`
     color: ${COLORS.gray} !important;
@@ -149,12 +153,12 @@
     <img src='/images/landingLogo.png' alt='landing logo' class='landing-logo' />
     <p class='intro'>
       <span class={headline}>
-        Tenemos un <span class={highlight('noExiste')}>anacronismo</span>
+        Existe un <span class={highlight('noExiste')}>anacronismo</span>
         <span class={highlight('insuficiente')}>legal</span> en 
         <span class={highlight('suficiente')}>Latinoamérica</span>
       </span>
       <span class={conclusion}>
-        Necesitamos incidir en evolucionar a<br/>nuevas políticas públicas
+        Necesitamos nuevas flexibilidades al derecho de autor para promover la educación, la cultura y la investigación
       </span>
     </p>
   </div>
@@ -171,7 +175,7 @@
     {#each highlightsInfo as info (info.question)}
       <a
         href={info.link}
-        _target="blank"
+        target="_blank"
         class={highlightBox}
       >
         <p class="highlight-question">
@@ -204,8 +208,8 @@
     <p class='intro'>
       <span class={`${headline} boxWithImage-map-headline`}>
         Explora las 
-        <span class={highlight('suficiente')}>flexibilidades</span>
-        y las <span class={highlight('insuficiente')}>excepciones</span>
+        <span class={highlight('suficiente')}>excepciones</span>
+        y <span class={highlight('insuficiente')}>limitaciones</span>
         <br/>de <span class={highlight('noExiste')}>Latam</span> en nuestro
         <a href="/mapa" class={highlightButton}>
           <span>mapa</span>
@@ -259,7 +263,11 @@
           class='logo logo-indela'
         />
 
-        <div class="logo logo-4 ONU" />
+        <img
+          src='/images/osfLogo.png'
+          alt='open society foundation logo'
+          class='logo logo-osf'
+        />
       </div>
     </div>
   </div>
@@ -272,17 +280,21 @@
   </div>
 
   <div class="footer-cc-privacy">
-    <p class={ccTitle}>
-      <span>
-        Licencia Creative Commons 4.0
-      </span>
-      <br/>
+    <a
+      class={ccTitle}
+      href="https://creativecommons.org/licenses/by/4.0/deed.es"
+      target="_blank"
+    >
       <img
-        src='/images/CC-BY-SA_icon.png'
+        src='/images/CC-BY_icon.png'
         alt='indela logo'
         class='logo-cc'
       />
-    </p>
+      <br/>
+      <span>
+        Licencia Creative Commons<br/>Atribución 4.0 Internacional.
+      </span>
+    </a>
 
     <a
       class={privacyPolicy}
@@ -299,7 +311,7 @@
       />
       <br/>
       <span>
-        Política de privacidad
+        Política de uso y privacidad
       </span>
     </a>
   </div>
@@ -327,7 +339,7 @@
   }
 
   .boxWithImage-map-headline {
-    line-height: 86px;
+    line-height: 76px;
   }
 
   .intro {
@@ -415,6 +427,11 @@
 
   .logo-karisma {
     height: 70px;
+  }
+
+  .logo-osf {
+    height: 70px;
+    margin: 18px 16px 8px;
   }
 
   .footer-cc-privacy {
