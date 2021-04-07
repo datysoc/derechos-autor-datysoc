@@ -1,5 +1,6 @@
 <script>
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
+  import Footer from '../components/Footer.svelte';
   import { COLORS } from '../resources/colors';
 
   $: privacyPolicy = css`
@@ -17,16 +18,7 @@
     font-weight: 700;
     font-family: "Space Mono", serif, arial;
     padding: 4px 20px;
-    background-color: ${COLORS.orange};
-  `; 
-
-  $: title = css`
-    font-size: 32px;
-    color: ${COLORS.gray};
-    font-weight: 700;
-    font-family: "Space Mono", serif, arial;
-    padding: 4px 20px;
-    background-color: ${COLORS.orange};
+    border-bottom: solid 2px ${COLORS.orange};
   `; 
 
   $: subtitle = css`
@@ -149,3 +141,5 @@
     El sitio tiene contenido incrustado (por ejemplo, vídeos, imágenes, artículos, etc.) de otras web. Estas pueden recopilar datos, utilizar cookies, incrustar un seguimiento adicional de terceros, y supervisar la interacción con ese contenido incrustado, incluido el seguimiento de su interacción con el contenido incrustado de una cuenta y conexión a esa web.
   </p>
 </main>
+
+<Footer />
