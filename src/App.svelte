@@ -4,6 +4,7 @@
 
   import Home from './screens/Home.svelte';
   import Map from './screens/Map.svelte';
+  import Glossary from './screens/Glossary.svelte';
   import PrivacyPolicy from './screens/PrivacyPolicy.svelte';
 
   export let url = '';
@@ -12,6 +13,10 @@
 <div class='layout'>
   <Router url={url}>
     <Header />
+
+    <Route path="/glosario">
+      <Glossary />
+    </Route>
 
     <Route path="/mapa">
       <Map />
