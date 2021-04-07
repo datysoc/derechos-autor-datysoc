@@ -435,7 +435,7 @@ export const countriesLaws = [
     ]
   },
   {
-    id: "Brazil",
+    id: "Brasil",
     name: "Brasil",
     categories: [
       {
@@ -772,7 +772,7 @@ export const countriesLaws = [
                 id: "ley9610Articulo46NumVii",
                 title: "Ley 9.610 Artículo 46 Num VII",
                 description: "Artículo 46. No constituye ofensa a los derechos de autor: (...) VII - la utilización de obras literarias, artísticas o científicas para producir prueba judicial o administrativa",
-                link: "https://wipolex.wipo.int/es/legislation/details/17474",
+                link: "https://wipolex.wipo.int/es/text/492820",
                 linkLabel: "Enlace a la norma"
               }
             ]
@@ -785,7 +785,7 @@ export const countriesLaws = [
                 id: "ley9610Articulo46NumVii",
                 title: "Ley 9.610 Artículo 46 Num VII",
                 description: "Artículo 46. No constituye ofensa a los derechos de autor: (...) VII - la utilización de obras literarias, artísticas o científicas para producir prueba judicial o administrativa",
-                link: "https://wipolex.wipo.int/es/legislation/details/17474",
+                link: "https://wipolex.wipo.int/es/text/492820",
                 linkLabel: "Enlace a la norma"
               }
             ]
@@ -849,7 +849,7 @@ export const countriesLaws = [
                 id: "ley9610Articulo30Num1",
                 title: "Ley 9610 Artículo 30 num. 1",
                 description: "Artículo 30. En el ejercicio del derecho de reproducción, el titular de los derechos de autor podrá poner a disposición del público la obra, en la forma, lugar y por el tiempo que desee, a título oneroso o gratuito. § 1º El derecho de exclusividad de reproducción no será aplicable cuando sea temporal y sólo tenga el propósito de hacer la obra, fonograma o interpretación perceptible en medio electrónico o cuando sea de naturaleza transitoria e incidental, siempre que ocurra en el curso del uso debidamente autorizado de la obra, por el titular.",
-                link: "https://wipolex.wipo.int/es/legislation/details/17474",
+                link: "https://wipolex.wipo.int/es/text/492820",
                 linkLabel: "Enlace a la norma"
               }
             ]
@@ -988,7 +988,7 @@ export const countriesLaws = [
           },
           {
             id: "ensenanzaEnLinea",
-            state: "suficiente",
+            state: "insuficiente",
             norms: [
               {
                 id: "ley17336Articulo71M",
@@ -1057,7 +1057,7 @@ export const countriesLaws = [
           },
           {
             id: "preservacion",
-            state: "suficiente",
+            state: "insuficiente",
             norms: [
               {
                 id: "ley17336Articulo71IA",
@@ -1088,8 +1088,16 @@ export const countriesLaws = [
           },
           {
             id: "usosTransfronterizos",
-            state: "noExiste",
-            norms: []
+            state: "insuficiente",
+            norms: [
+              {
+                id: "ley17336Articulo18LitEInc2",
+                title: "Ley 17336 Artículo 18 lit.e inc. 2",
+                description: "Artículo 18. Sólo el titular del derecho de autor o quienes estuvieren expresamente autorizados por él, tendrán el derecho de utilizar la obra en alguna de las siguientes formas:\n (...)\n e) La distribución al público mediante venta, o cualquier otra transferencia de propiedad del original o de los ejemplares de su obra que no hayan sido objeto de una venta u otra transferencia de propiedad autorizada por él o de conformidad con esta ley.\n Con todo, la primera venta u otra transferencia de propiedad en Chile o el extranjero, agota el derecho de distribución nacional e internacionalmente con respecto del original o ejemplar transferido.\n",
+                link: "https://www.bcn.cl/leychile/navegar?idNorma=28933&idParte=8636864",
+                linkLabel: "Enlace a la norma"
+              }
+            ]
           },
           {
             id: "importacionParalela",
@@ -1160,7 +1168,7 @@ export const countriesLaws = [
           },
           {
             id: "intercambioTransfronterizoDeEjemplaresAccesibles",
-            state: "suficiente",
+            state: "insuficiente",
             norms: [
               {
                 id: "ley17336Articulo18LitEInc2",
@@ -1233,7 +1241,7 @@ export const countriesLaws = [
           },
           {
             id: "inclusionIncidental",
-            state: "suficiente",
+            state: "insuficiente",
             norms: [
               {
                 id: "ley17336Articulo71Q",
@@ -1291,7 +1299,7 @@ export const countriesLaws = [
                 id: "ley17336Articulo71G",
                 title: "Ley 17336 Artículo 71 G",
                 description: "Artículo 71 G. En las obras de arquitectura, el autor no podrá impedir la introducción de modificaciones que el propietario decida realizar, pero podrá oponerse a la mención de su nombre como autor del proyecto. ",
-                link: "https://www.bcn.cl/leychile/navegar?idNorma=28933&idParte=8917031",
+                link: "https://www.bcn.cl/leychile/navegar?idNorma=28933&idParte=8917024",
                 linkLabel: "Enlace a la norma"
               }
             ]
@@ -1884,7 +1892,7 @@ export const countriesLaws = [
           },
           {
             id: "modificacionesArquitectonicas",
-            state: "insuficiente",
+            state: "suficiente",
             norms: [
               {
                 id: "ley23Articulo43",
@@ -2781,7 +2789,7 @@ export const countriesLaws = [
           },
           {
             id: "finesDeInformacion",
-            state: "insuficiente",
+            state: "suficiente",
             norms: [
               {
                 id: "leyFederalDelDerechoDeAutorArticulo148Ii",
@@ -2801,7 +2809,7 @@ export const countriesLaws = [
           },
           {
             id: "documentosPublicos",
-            state: "insuficiente",
+            state: "suficiente",
             norms: [
               {
                 id: "leyFederalDelDerechoDeAutorArticulo14Viii",
@@ -2976,7 +2984,7 @@ export const countriesLaws = [
         exceptions: [
           {
             id: "produccionDeEjemplaresAccesibles",
-            state: "suficiente",
+            state: "insuficiente",
             norms: [
               {
                 id: "leyFederalDelDerechoDeAutorArticulo148Viii",
@@ -2989,7 +2997,7 @@ export const countriesLaws = [
           },
           {
             id: "distribucionDeEjemplaresAccesibles",
-            state: "suficiente",
+            state: "insuficiente",
             norms: [
               {
                 id: "leyFederalDelDerechoDeAutorArticulo148Viii",
@@ -3072,7 +3080,7 @@ export const countriesLaws = [
         exceptions: [
           {
             id: "copiaPrivada",
-            state: "insuficiente",
+            state: "suficiente",
             norms: [
               {
                 id: "leyFederalDelDerechoDeAutorArticulo40",
@@ -5218,7 +5226,7 @@ export const countriesLaws = [
                 title: "Decreto 295/017 Artículo 10",
                 description: "Artículo 10. Las actividades dirigidas al goce y ejercicio de los derechos conferidos por la excepción, no se encuentran alcanzadas por las disposiciones y acciones jurídicas contra la elusión de medidas tecnológicas de protección.",
                 link: "https://www.impo.com.uy/bases/decretos/295-2017",
-                linkLabel: ""
+                linkLabel: "Enlace a la norma"
               }
             ]
           }
