@@ -1,9 +1,8 @@
 <script>
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Icon from 'svelte-awesome';
-  import {
-    faUnlockAlt,
-  } from '@fortawesome/free-solid-svg-icons';
+  import { faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
+  import { faGithub } from '@fortawesome/free-brands-svg-icons';
   import { COLORS } from '../resources/colors';
 
   $: dividerColorBlue = css`
@@ -111,21 +110,43 @@
   </div>
 
   <div class="footer-cc-privacy">
-    <a
-      class={ccTitle}
-      href="https://creativecommons.org/licenses/by/4.0/deed.es"
-      target="_blank"
-    >
-      <img
-        src='/images/CC-BY_icon.png'
-        alt='indela logo'
-        class='logo-cc'
-      />
-      <br/>
-      <span>
-        Licencia Creative Commons<br/>Atribución 4.0 Internacional.
-      </span>
-    </a>
+    <div class="social">
+      <a
+        class={ccTitle}
+        href="https://creativecommons.org/licenses/by/4.0/deed.es"
+        target="_blank"
+      >
+        <img
+          src='/images/CC-BY_icon.png'
+          alt='indela logo'
+          class='logo-cc'
+        />
+        <br/>
+        <span>
+          Licencia Creative Commons<br/>Atribución 4.0 Internacional.
+        </span>
+      </a>
+
+      <a
+        class={ccTitle}
+        href="https://github.com/diablourbano/derechos-autor-datysoc"
+        target="_blank"
+      >
+        <Icon
+          data={faGithub}
+          scale={1.8}
+          style={`
+            color: ${COLORS.gray};
+            border: 0;
+            background-color: transparent;
+          `}
+        />
+        <br/>
+          Github Repo
+        <span>
+        </span>
+      </a>
+    </div>
 
     <a
       class={privacyPolicy}
@@ -205,6 +226,13 @@
 
   .logo-cc {
     widht: 80px;
+  }
+
+  .social {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 0.06;
   }
 </style>
 
