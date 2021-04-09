@@ -2,7 +2,8 @@ export const glossary = [
   {
     id: "libertadDeExpresion",
     name: "Libertad de expresión",
-    description: "CRÍTICA, DISCURSO PÚBLICO Y LIBERTAD DE EXPRESIÓN\n El derecho de autor otorga a las personas autoras el control sobre sus obras. Pero este control, a veces, puede interferir con la crítica, el discurso público y la libertad de expresión. \n Para prevenir este problema, los países deben incluir en sus leyes de derecho de autor flexibilidades que permitan citar obras, copiar y difundir las noticias, transcribir documentos oficiales, criticar e incluso parodiar y satirizar obras y discursos de otras personas. Estas flexibilidades crean un entorno seguro para la libertad de expresión, en el que se fomenta el debate y la circulación de noticias e ideas.",
+    subtitle: "CRÍTICA, DISCURSO PÚBLICO Y LIBERTAD DE EXPRESIÓN",
+    description: "El derecho de autor otorga a las personas autoras el control sobre sus obras. Pero este control, a veces, puede interferir con la crítica, el discurso público y la libertad de expresión. %Para prevenir este problema, los países deben incluir en sus leyes de derecho de autor flexibilidades que permitan citar obras, copiar y difundir las noticias, transcribir documentos oficiales, criticar e incluso parodiar y satirizar obras y discursos de otras personas. Estas flexibilidades crean un entorno seguro para la libertad de expresión, en el que se fomenta el debate y la circulación de noticias e ideas.",
     exceptions: [
       {
         id: "cita",
@@ -34,7 +35,8 @@ export const glossary = [
   {
     id: "finesEducativos",
     name: "Fines educativos",
-    description: "EDUCACIÓN PRESENCIAL Y EN LÍNEA Docentes y estudiantes, al enseñar y aprender, usan obras como parte de su rutina diaria. Entre otras cosas, copian, distribuyen, comunican, adaptan y traducen obras. Sin todas estas acciones, no sería viable la educación presencial y en línea. Pero en muchos países de América Latina, varias de estas acciones están prohibidas por las leyes de derecho de autor. Es por eso que nuestros gobiernos deben incluir flexibilidades para habilitar los usos de obras con fines educativos. Algunos ejemplos, entre muchos otros, incluyen: - mostrar obras artísticas durante una clase; - repartir textos entre las y los estudiantes; - crear compilaciones de capítulos para estudiar; - compartir videos, podcasts y otros materiales audiovisuales; - subir fragmentos de películas a un aula virtual para comentarlos. Hoy en día la educación no está restringida al salón de clases y los materiales tienen formatos diversos. Por esa razón, las flexibilidades deben amparar todos los usos honrados que se hagan con fines educativos en cualquier contexto.",
+    subtitle: "EDUCACIÓN PRESENCIAL Y EN LÍNEA",
+    description: "Docentes y estudiantes, al enseñar y aprender, usan obras como parte de su rutina diaria. Entre otras cosas, copian, distribuyen, comunican, adaptan y traducen obras. Sin todas estas acciones, no sería viable la educación presencial y en línea. Pero en muchos países de América Latina, varias de estas acciones están prohibidas por las leyes de derecho de autor. Es por eso que nuestros gobiernos deben incluir flexibilidades para habilitar los usos de obras con fines educativos. Algunos ejemplos, entre muchos otros, incluyen:%- mostrar obras artísticas durante una clase;%- repartir textos entre las y los estudiantes;%- crear compilaciones de capítulos para estudiar;%- compartir videos, podcasts y otros materiales audiovisuales;%- subir fragmentos de películas a un aula virtual para comentarlos.%Hoy en día la educación no está restringida al salón de clases y los materiales tienen formatos diversos. Por esa razón, las flexibilidades deben amparar todos los usos honrados que se hagan con fines educativos en cualquier contexto.",
     exceptions: [
       {
         id: "comunicacion",
@@ -66,7 +68,8 @@ export const glossary = [
   {
     id: "bibliotecasYArchivos",
     name: "Bibliotecas y archivos",
-    description: "ACCESO Y PRESERVACIÓN DEL PATRIMONIO CULTURAL Las bibliotecas, los archivos, las galerías y los museos tienen el rol de preservar y brindar acceso al patrimonio cultural. Si los autores tuvieran un control total sobre las obras que albergan estas instituciones culturales, ellas no podrían cumplir su misión.  Por esta razón, las leyes de derecho de autor deben contar con flexibilidades para favorecer el acceso al patrimonio y amparar el trabajo de bibliotecas, archivos, museos y galerías. Algunas flexibilidades imprescindibles son:  -Prestar obras de cualquier tipo y en todos los formatos, incluyendo los formatos digitales -Intercambiar libros entre bibliotecas -Generar copias para preservar obras antiguas -Copiar y difundir obras que ya no están en el mercado -Traducir obras para facilitar el acceso -Brindar servicios de copiado de fragmentos breves de obras",
+    subtitle: "ACCESO Y PRESERVACIÓN DEL PATRIMONIO CULTURAL",
+    description: "Las bibliotecas, los archivos, las galerías y los museos tienen el rol de preservar y brindar acceso al patrimonio cultural.%Si los autores tuvieran un control total sobre las obras que albergan estas instituciones culturales, ellas no podrían cumplir su misión. %Por esta razón, las leyes de derecho de autor deben contar con flexibilidades para favorecer el acceso al patrimonio y amparar el trabajo de bibliotecas, archivos, museos y galerías.%Algunas flexibilidades imprescindibles son:%%-Prestar obras de cualquier tipo y en todos los formatos, incluyendo los formatos digitales%-Intercambiar libros entre bibliotecas%-Generar copias para preservar obras antiguas%-Copiar y difundir obras que ya no están en el mercado%-Traducir obras para facilitar el acceso%-Brindar servicios de copiado de fragmentos breves de obras",
     exceptions: [
       {
         id: "prestamoPublico",
@@ -81,7 +84,7 @@ export const glossary = [
       {
         id: "serviciosDeReproduccion",
         name: "Servicios de reproducción",
-        description: "Servicios de reproducción de fragmentos y suministro de copias: Este tipo de excepciones permite que las bibliotecas y archivos efectúen y suministren copias de breves extractos, artículos sueltos o un capítulo de las obras disponibles en sus colecciones para el público con fines de investigación o estudio. "
+        description: "Servicios de reproducción de fragmentos y suministro de copias: Este tipo de excepciones permite que las bibliotecas y archivos efectúen y suministren copias de breves extractos, artículos sueltos o un capítulo de las obras disponibles en sus colecciones para el público con fines de investigación o estudio.%"
       },
       {
         id: "preservacion",
@@ -91,7 +94,7 @@ export const glossary = [
       {
         id: "accesoAObrasRetiradas",
         name: "Acceso a obras retiradas",
-        description: "Acceso a obras retiradas del mercado: Este tipo de excepciones aborda un problema que afrontan actualmente las bibliotecas en relación con las publicaciones electrónicas. Cuando se trata de obras que circulan en formato físico, las bibliotecas pueden conservar los ejemplares que han adquirido a pesar de que la obra haya sido retirada del mercado. La posibilidad de retener ejemplares retirados garantiza a las bibliotecas y archivos la preservación del registro público, permitiendo asimismo identificar cualquier modificación o retractación. "
+        description: "Acceso a obras retiradas del mercado: Este tipo de excepciones aborda un problema que afrontan actualmente las bibliotecas en relación con las publicaciones electrónicas. Cuando se trata de obras que circulan en formato físico, las bibliotecas pueden conservar los ejemplares que han adquirido a pesar de que la obra haya sido retirada del mercado. La posibilidad de retener ejemplares retirados garantiza a las bibliotecas y archivos la preservación del registro público, permitiendo asimismo identificar cualquier modificación o retractación.%"
       },
       {
         id: "obrasHuerfanas",
@@ -128,7 +131,8 @@ export const glossary = [
   {
     id: "poblacionesDesatendidas",
     name: "Poblaciones desatendidas",
-    description: "ACCESO DE POBLACIONES DESATENDIDAS En 2013, la Organización Mundial de la Propiedad Intelectual aprobó el Tratado de Marrakech para facilitar el acceso a obras publicadas a las personas ciegas, con discapacidad visual o con otras dificultades para acceder al texto impreso. Este hito permite que las personas beneficiarias, así como entidades autorizadas, puedan adaptar obras a formatos accesibles (ya sea Braille o formatos digitales), distribuirlas y comunicarlas. De esta manera, el acceso a la cultura por parte de las personas con discapacidad deja de ser un delito y pasa a ser un derecho. Nuestros países deben ratificar y llevar a la práctica el Tratado de Marrakech para garantizar los derechos culturales de las personas con discapacidad. Además, nuestros países deben considerar flexibilidades para traducir obras a idiomas minoritarios y para incluir a personas con otras discapacidades. ",
+    subtitle: "ACCESO DE POBLACIONES DESATENDIDAS",
+    description: "En 2013, la Organización Mundial de la Propiedad Intelectual aprobó el Tratado de Marrakech para facilitar el acceso a obras publicadas a las personas ciegas, con discapacidad visual o con otras dificultades para acceder al texto impreso.%Este hito permite que las personas beneficiarias, así como entidades autorizadas, puedan adaptar obras a formatos accesibles (ya sea Braille o formatos digitales), distribuirlas y comunicarlas.%De esta manera, el acceso a la cultura por parte de las personas con discapacidad deja de ser un delito y pasa a ser un derecho.%Nuestros países deben ratificar y llevar a la práctica el Tratado de Marrakech para garantizar los derechos culturales de las personas con discapacidad.%Además, nuestros países deben considerar flexibilidades para traducir obras a idiomas minoritarios y para incluir a personas con otras discapacidades.%",
     exceptions: [
       {
         id: "produccionDeEjemplaresAccesibles",
@@ -165,7 +169,8 @@ export const glossary = [
   {
     id: "usosPrivadosSociales",
     name: "Usos privados / sociales",
-    description: "USOS PRIVADOS, INCIDENTALES Y SOCIALES DE LAS OBRAS Hay ciertos usos de las obras culturales que están justificados porque ocurren en un contexto de privacidad y no generan daño, o porque son pequeños o anecdóticos, o porque cumplen una función de interés social. Nuestros países deben tener flexibilidades para amparar los usos privados de las obras. Algunos ejemplos de usos privados son: -copiar un libro o una canción y trasladarlo a otro dispositivo.-traducir un texto para nuestro propio uso -poner música en un cumpleaños en nuestra casa También es necesario proteger los usos incidentales, que ocurren, por ejemplo, cuando grabamos un video en el que, de repente, en el ambiente empieza a sonar una música o aparece un cuadro en una pared. Por último, son necesarias algunas flexibilidades para usos sociales, como, por ejemplo, poner música o hacer representaciones teatrales en eventos culturales no comerciales, en instituciones de salud, educativas o religiosas. ",
+    subtitle: "USOS PRIVADOS, INCIDENTALES Y SOCIALES DE LAS OBRAS",
+    description: "Hay ciertos usos de las obras culturales que están justificados porque ocurren en un contexto de privacidad y no generan daño, o porque son pequeños o anecdóticos, o porque cumplen una función de interés social.%Nuestros países deben tener flexibilidades para amparar los usos privados de las obras. Algunos ejemplos de usos privados son:%-copiar un libro o una canción y trasladarlo a otro dispositivo.-traducir un texto para nuestro propio uso%-poner música en un cumpleaños en nuestra casa%También es necesario proteger los usos incidentales, que ocurren, por ejemplo, cuando grabamos un video en el que, de repente, en el ambiente empieza a sonar una música o aparece un cuadro en una pared.%Por último, son necesarias algunas flexibilidades para usos sociales, como, por ejemplo, poner música o hacer representaciones teatrales en eventos culturales no comerciales, en instituciones de salud, educativas o religiosas.%",
     exceptions: [
       {
         id: "copiaPrivada",
@@ -195,7 +200,7 @@ export const glossary = [
       {
         id: "comunicacionOtrasSinFinesDeLucro",
         name: "Comunicación: otras sin fines de lucro",
-        description: "Comunicación en instituciones de salud, religiosas o educativas: Este tipo de excepciones permite ciertos actos de comunicación pública en los que se ha considerado que existe algún interés social superior a proteger relacionado con el ejercicio de los derechos a la educación, a la salud y a la libertad religiosa. Entre otros ejemplos, se encuentra la comunicación en salas de espera de centros de salud, en eventos religiosos o en actos escolares. "
+        description: "Comunicación en instituciones de salud, religiosas o educativas: Este tipo de excepciones permite ciertos actos de comunicación pública en los que se ha considerado que existe algún interés social superior a proteger relacionado con el ejercicio de los derechos a la educación, a la salud y a la libertad religiosa. Entre otros ejemplos, se encuentra la comunicación en salas de espera de centros de salud, en eventos religiosos o en actos escolares.%"
       },
       {
         id: "modificacionesArquitectonicas",
@@ -217,7 +222,8 @@ export const glossary = [
   {
     id: "administracionPublica",
     name: "Administración pública",
-    description: "BUEN DESEMPEÑO DE LA ADMINISTRACIÓN PÚBLICA Para llevar a cabo las funciones de gobierno, a veces es necesario que la administración pública pueda utilizar obras autorales de maneras diversas. Por ejemplo: -Un tribunal de justicia o un órgano administrativo no deberían precisar el consentimiento del autor o autora cuando usan una obra como medio de prueba en un procedimiento judicial o administrativo. -En el trabajo de una comisión parlamentaria, se debería poder elaborar un informe con los fragmentos de textos y antecedentes bibliográficos necesarios para poder analizar una modificación legislativa, sin necesidad de pedir permiso a la persona autora. Nuestros países deben incluir estas flexibilidades en sus leyes de derecho de autor para garantizar el buen desempeño de la administración pública. ",
+    subtitle: "BUEN DESEMPEÑO DE LA ADMINISTRACIÓN PÚBLICA",
+    description: "Para llevar a cabo las funciones de gobierno, a veces es necesario que la administración pública pueda utilizar obras autorales de maneras diversas.%Por ejemplo:%-Un tribunal de justicia o un órgano administrativo no deberían precisar el consentimiento del autor o autora cuando usan una obra como medio de prueba en un procedimiento judicial o administrativo.%-En el trabajo de una comisión parlamentaria, se debería poder elaborar un informe con los fragmentos de textos y antecedentes bibliográficos necesarios para poder analizar una modificación legislativa, sin necesidad de pedir permiso a la persona autora.%Nuestros países deben incluir estas flexibilidades en sus leyes de derecho de autor para garantizar el buen desempeño de la administración pública.",
     exceptions: [
       {
         id: "procedimientosAdministrativos",
@@ -227,7 +233,7 @@ export const glossary = [
       {
         id: "procedimientosJudiciales",
         name: "Procedimientos judiciales",
-        description: "Uso de obras en procedimientos judiciales: Esta excepción permite que los órganos judiciales utilicen cualquier tipo de obra en el marco del ejercicio de sus funciones. Un tribunal de justicia no debería precisar el consentimiento del autor cuando usa una obra como medio de prueba en un procedimiento judicial. "
+        description: "Uso de obras en procedimientos judiciales: Esta excepción permite que los órganos judiciales utilicen cualquier tipo de obra en el marco del ejercicio de sus funciones. Un tribunal de justicia no debería precisar el consentimiento del autor cuando usa una obra como medio de prueba en un procedimiento judicial.%"
       },
       {
         id: "procedimientosParlamentarios",
@@ -239,7 +245,8 @@ export const glossary = [
   {
     id: "nuevasTecnologias",
     name: "Nuevas tecnologías",
-    description: "NUEVAS TECNOLOGÍAS Y USOS AÚN NO PREVISTOS La mayoría de las leyes de derecho de autor en América Latina no están adaptadas a los usos actuales de la tecnología. Esto genera un desfase entre las prácticas sociales y la ley. Nuestros países deben tener flexibilidades para promover los beneficios de la tecnología para el acceso a la cultura. Entre otras cosas, son necesarias flexibilidades para: -enlazar y embeber obras en la web -hacer copias de respaldo de software, adaptarlo a las necesidades personales y hacer ingeniería inversa para investigar con fines de seguridad digital -hacer minería de texto y de datos para investigar -traspasar las medidas anticopia que traen las obras cuando estamos al amparo de una flexibilidad Además, nuestras legislaciones deberían tener una cláusula, llamada en algunos países “uso justo”, para garantizar los usos honrados aún no previstos que no afecten a las personas autoras. Las tecnologías y las prácticas culturales cambian muy rápidamente y, por eso, es necesario que nuestras leyes sean lo suficientemente flexibles para acompañar esos cambios. ",
+    subtitle: "NUEVAS TECNOLOGÍAS Y USOS AÚN NO PREVISTOS",
+    description: "La mayoría de las leyes de derecho de autor en América Latina no están adaptadas a los usos actuales de la tecnología. Esto genera un desfase entre las prácticas sociales y la ley.%Nuestros países deben tener flexibilidades para promover los beneficios de la tecnología para el acceso a la cultura. Entre otras cosas, son necesarias flexibilidades para:%-enlazar y embeber obras en la web%-hacer copias de respaldo de software, adaptarlo a las necesidades personales y hacer ingeniería inversa para investigar con fines de seguridad digital%-hacer minería de texto y de datos para investigar%-traspasar las medidas anticopia que traen las obras cuando estamos al amparo de una flexibilidad%Además, nuestras legislaciones deberían tener una cláusula, llamada en algunos países “uso justo”, para garantizar los usos honrados aún no previstos que no afecten a las personas autoras.%Las tecnologías y las prácticas culturales cambian muy rápidamente y, por eso, es necesario que nuestras leyes sean lo suficientemente flexibles para acompañar esos cambios.",
     exceptions: [
       {
         id: "enlacesYFrames",
@@ -274,7 +281,7 @@ export const glossary = [
       {
         id: "usosTransformativos",
         name: "Usos transformativos",
-        description: "El uso transformativo deriva de la doctrina del uso justo (fair use) e implica el uso de obras preexistentes para crear algo nuevo, que no sea meramente un sustituto de la obra previa. Los usos que se pueden considerar transformativos incluyen desde la propia cita, la parodia, la caricatura o el pastiche, hasta los usos más modernos, como aquellos que implican el sampleo, el mashup y el remix de obras. Algunos ejemplos de uso transformativo son las obras del arte apropiacionista, como las serigrafías de Andy Warhol o la Mona Lisa de Marcel Duchamp. También son usos transformativos los mashups, así como los memes realizados con fragmentos o capturas de películas, e inclusive el uso como imágenes en miniatura (thumbnails) de gráficos protegidos por derecho de autor en los resultados de motores de búsqueda. "
+        description: "El uso transformativo deriva de la doctrina del uso justo (fair use) e implica el uso de obras preexistentes para crear algo nuevo, que no sea meramente un sustituto de la obra previa. Los usos que se pueden considerar transformativos incluyen desde la propia cita, la parodia, la caricatura o el pastiche, hasta los usos más modernos, como aquellos que implican el sampleo, el mashup y el remix de obras. Algunos ejemplos de uso transformativo son las obras del arte apropiacionista, como las serigrafías de Andy Warhol o la Mona Lisa de Marcel Duchamp. También son usos transformativos los mashups, así como los memes realizados con fragmentos o capturas de películas, e inclusive el uso como imágenes en miniatura (thumbnails) de gráficos protegidos por derecho de autor en los resultados de motores de búsqueda.%"
       },
       {
         id: "usoJusto",

@@ -51,6 +51,16 @@
     justify-content: space-between;
   `;
 
+  $: categorySubtitle = categoryIdForColor => css`
+    color: ${COLORS.gray20};
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 0 0 6px;
+    padding-bottom: 6px;
+    border-bottom: solid 1px ${colorForCategory[categoryIdForColor]};
+  `;
+
   $: categoryDesc = css`
     color: ${COLORS.gray20};
     font-weight: 500;
@@ -120,7 +130,8 @@
         </p>
         {#if !shouldCollapse(termDefs.id)}
           <div class="stateDetails" transition:slide|local={{ duration: 500 }}>
-            <p class={categoryDesc}>{@html replace(termDefs.description, /\n/g, '<br/><br/>')}</p>
+            <p class={categorySubtitle(termDefs.id)}>{termDefs.subtitle}</p>
+            <p class={categoryDesc}>{@html replace(termDefs.description, /\%/g, '<br/><br/>')}</p>
             <div class={exceptions}>
               {#each termDefs.exceptions as exceptionDef (exceptionDef.id)}
                 <div class={exception}>
@@ -145,6 +156,10 @@
     margin: 38px auto 0;
     padding: 20px 10px;
     min-height: 550px;
+  }
+
+  .stateDetails {
+    padding: 8px 12px;
   }
 
   .button {
