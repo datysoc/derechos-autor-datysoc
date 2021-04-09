@@ -16,6 +16,9 @@
   export let countryToToggle = '';
   export let filtersSelectedWithCountries = [];
 
+  const mapboxToken = envMapVars.env.MAPBOX_TOKEN;
+  const mapboxStyle = envMapVars.env.MAPBOX_STYLE;
+
   const { ScaleControl } = controls
 
   let mapComponent;
@@ -149,9 +152,9 @@
 </script>
 
 <Map
-  accessToken="pk.eyJ1IjoiZGlhYmxvdXJiYW5vIiwiYSI6ImNrbHhibThyaDBzb2gyd282NGtnM3kzNjUifQ.8pnavCVU4tlLBlg2jO17Og"
+  accessToken={mapboxToken}
   bind:this={mapComponent}
-  style="mapbox://styles/diablourbano/cklxjjmez1ree17pj7x1lgcdo"
+  style={mapboxStyle}
   on:ready={onMapReady}
   on:click={shouldHighlightCountry}
   options={{

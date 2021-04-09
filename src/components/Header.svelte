@@ -7,6 +7,8 @@
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import { COLORS, UICOLORS } from '../resources/colors';
 
+  const informeUrl = envMapVars.env.INFORME_URL || '/#';
+
   $: menuItems = [
     {
       id: 'home',
@@ -157,7 +159,7 @@
   </ul>
 
   <div class={downloadContainer}>
-    <a href="/#" _target="blank" class={downloadButton}>
+    <a href={informeUrl} _target="blank" class={downloadButton}>
       <Icon
         data={faCloudDownloadAlt}
         scale={1.8}

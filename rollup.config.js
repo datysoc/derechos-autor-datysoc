@@ -5,6 +5,8 @@ import livereload from 'rollup-plugin-livereload';
 import {terser} from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
 import polyfills from "rollup-plugin-node-polyfills";
+import replace from '@rollup/plugin-replace';
+import {config} from 'dotenv';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -72,7 +74,16 @@ export default {
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
-    production && terser()
+    production && terser(),
+    replace({
+      // stringify the object       
+      envMapVars: JSON.stringify({
+        env: {
+          isProd: production,
+          ...config().parsed // attached the .env config
+        }
+      }),
+    }),
   ],
   watch: {
     clearScreen: false

@@ -11,27 +11,34 @@
   import Footer from '../components/Footer.svelte';
   import { COLORS, STATE_COlORS } from '../resources/colors';
 
+  const podcastsUrl = envMapVars.env.PODCASTS_URL;
+  const informeUrl = envMapVars.env.INFORME_URL || '/#';
+  const youtubeVideoUrl = envMapVars.env.YOUTUBE_VERBENA_URL;
+
   const highlightsInfo = [
     {
       question: '¿Cuál es la situación?',
       icon: faFileAlt,
       iconColor: COLORS.green,
       answer: 'Accede al informe',
-      link: '/#',
+      link: informeUrl,
+      target: '_blank',
     },
     {
       question: '¿Qué se discute?',
       icon: faMicrophoneAlt,
       iconColor: COLORS.pink,
       answer: 'Escucha los podcasts',
-      link: '/#',
+      link: podcastsUrl,
+      target: '_blank',
     },
     {
       question: 'Excepciones',
       icon: faBookOpen,
       iconColor: COLORS.orange,
       answer: 'Conoce el glosario',
-      link: '/#',
+      link: '/glosario',
+      target: '_self',
     },
   ];
 
@@ -121,7 +128,7 @@
     {#each highlightsInfo as info (info.question)}
       <a
         href={info.link}
-        target="_blank"
+        target={info.target}
         class={highlightBox}
       >
         <p class="highlight-question">
@@ -177,9 +184,19 @@
   </div>
 </main>
 
-<div class="verbena-video">
-  <iframe width="100%" height="450" src="https://www.youtube.com/embed/eRTlIMLF0So" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+{#if youtubeVideoUrl}
+  <div class="verbena-video">
+    <iframe
+      width="100%"
+      height="450"
+      src={youtubeVideoUrl}
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+{/if}
 
 <Footer />
 

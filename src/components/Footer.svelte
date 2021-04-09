@@ -5,6 +5,8 @@
   import { faGithub } from '@fortawesome/free-brands-svg-icons';
   import { COLORS } from '../resources/colors';
 
+  const githubRepo = envMapVars.env.GITHUB_REPO;
+
   $: dividerColorBlue = css`
     background-color: ${COLORS.blue};
   `;
@@ -129,7 +131,7 @@
 
       <a
         class={ccTitle}
-        href="https://github.com/diablourbano/derechos-autor-datysoc"
+        href={githubRepo}
         target="_blank"
       >
         <Icon
