@@ -4,7 +4,9 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public --single"
+    "start": "sirv public --single",
+    "import:db": "node ./internal/index.js",
+    "publish": "npm run import:db && npm run build"
   },
   "devDependencies": {
     "@beyonk/svelte-mapbox": "^7.0.0",
