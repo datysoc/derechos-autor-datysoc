@@ -26,7 +26,7 @@
   const countriesInStudy = map(countries, country => country.id);
 
   let slideDetails = false;
-  let shouldShowLegend = false;
+  let shouldShowLegend = true;
 
   let checkedFilters = [];
 
