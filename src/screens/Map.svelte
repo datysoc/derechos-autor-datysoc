@@ -18,9 +18,9 @@
 
   import { categories } from '../data/categories';
   import { states } from '../data/states';
-  import { countriesLaws } from '../data/countries';
+  import { countries } from '../data/countries';
 
-  const countriesInStudy = map(countriesLaws, country => country.id);
+  const countriesInStudy = map(countries, country => country.id);
 
   let slideDetails = false;
 
@@ -44,7 +44,7 @@
       }
     );
 
-    return map(countriesLaws, countryLaw => {
+    return map(countries, countryLaw => {
       const states = map(groupedFilters, groupedFilter => {
         const { categoryId, subcategories } = groupedFilter;
 
@@ -103,7 +103,7 @@
   };
 
   $: detailsFor = () => {
-    const countryRow = find(countriesLaws, ({ id }) => id === countryId);
+    const countryRow = find(countries, ({ id }) => id === countryId);
 
     const filteredByCategories = filter(countryRow.categories, category => {
       return !!find(checkedFilters, { categoryId: category.id });
