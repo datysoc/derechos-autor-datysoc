@@ -9,10 +9,13 @@
     map,
   } from 'lodash';
   import {slide} from 'svelte/transition';
+  import Icon from 'svelte-awesome';
+  import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
   import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
   import Map from '../components/Map.svelte';
   import BoxDetail from '../components/BoxDetail.svelte';
   import Radio from '../components/Radio.svelte';
+  import Legend from '../components/Legend.svelte';
   import { horizontalSlide } from '../components/horizontalSlide';
   import { COLORS } from '../resources/colors';
 
@@ -23,6 +26,7 @@
   const countriesInStudy = map(countries, country => country.id);
 
   let slideDetails = false;
+  let shouldShowLegend = false;
 
   let checkedFilters = [];
 
@@ -92,6 +96,20 @@
   const shouldShowDetails = countryName => {
     countryId = countryId === countryName ? '' : countryName;
     slideDetails = countryId === countryName;
+  };
+
+  const onShowLegend =  e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    shouldShowLegend = !shouldShowLegend;
+  };
+
+  const onCloseLegend =  e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    shouldShowLegend = false;
   };
 
   const onClose = e => {
@@ -174,6 +192,30 @@
       countryToToggle={countryId}
       filtersSelectedWithCountries={filtersSelectedWithCountries}
     />
+
+    <div class="legend">
+      {#if shouldShowLegend}
+        <Legend
+          states={states}
+          onCloseLegend={onCloseLegend}
+        />
+      {/if}
+      <button
+        class="helpButton"
+        on:click={onShowLegend}
+      >
+        <Icon
+          data={faQuestionCircle}
+          scale={2}
+          style={`
+            color: ${COLORS.gray};
+            border: 0;
+            background-color: transparent;
+          `}
+        />
+        <span class="legendSpan">leyenda</span>
+      </button>
+    </div>
     {#if slideDetails}
       <div class={boxContainer} transition:horizontalSlide={{ duration: 500 }}>
         <BoxDetail
@@ -192,9 +234,34 @@
     display: flex;
   }
 
+  .legend {
+    position: absolute;
+    bottom: 5%;
+    left: 38px;
+    width: 300px;
+  }
+
   .map {
     width: calc(100% - 300px);
     height: 100vh;
+    position: relative;
+  }
+
+  .helpButton {
+    border: 0;
+    background-color: transparent;
+    border-radius: 50%;
+    width: 40px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .legendSpan {
+    margin-top: 8px;
   }
 </style>
 
