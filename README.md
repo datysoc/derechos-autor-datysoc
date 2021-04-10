@@ -5,7 +5,7 @@
 - node v14.15.1
 - Archivos `*.tsv` exportados de la hoja de Google Drive `BD Sitios DA` (Patricia tiene acceso a estos archivos), para este paso, hacer lo siguiente:
 
-1. seleccionar cada una de las hojas, por ejemplo `Estado`
+1. seleccionar cada una de las hojas (Estado, Categoria, Excepciones, Paises, Glosario), por ejemplo `Estado`
 2. ir a `Archivo` (`File`) en el menu
 3. seleccionar `Descargar` (`Download`)
 4. seleccionar `Tab-Separated Values (*tsv, current sheet)` (la última opción)
