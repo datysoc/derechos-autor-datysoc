@@ -161,7 +161,7 @@
   scrollZoom: true,
   zoom: 0,
   minZoom: 2.5,
-  maxZoom: 2.5,
+  maxZoom: 15.5,
   }}
 >
   <ScaleControl />

@@ -84,6 +84,25 @@ const categoryToStore = grouppedCategory => {
   };
 };
 
+const countryNameToUse = countryName => {
+  switch (countryName) {
+    case 'Costarica':
+      return 'Costa Rica';
+
+    case 'Elsalvador':
+      return 'El Salvador';
+
+    case 'Republicadominicana':
+      return 'Dominican Rep.';
+
+    case 'Brasil':
+      return 'Brazil';
+
+    default:
+      return countryName;
+  }
+};
+
 const expandCountries = nodesToExpand => {
   // first array is keys
   const [keys, ...nodes] = nodesToExpand;
@@ -107,7 +126,7 @@ const expandCountries = nodesToExpand => {
     });
 
     const nodeToStore = {
-      id: countryId === 'Brasil' ? 'Brazil' : countryId,
+      id: countryNameToUse(countryId),
       name: countryName,
       categories,
     };

@@ -10,7 +10,11 @@ console.clear()
 const rootPath = process.cwd();
 
 const transformTsvToJSON = (dbName) => {
-  const jsonFile = fs.readFileSync(`${rootPath}/internal/dataToDecode/BD\ Sitio\ DA\ -\ ${dbName}.tsv`).toString();
+  const jsonFile = fs
+    .readFileSync(
+      `${rootPath}/internal/dataToDecode/Data\ Base\ Sitio\ DA\ -\ ${dbName}.tsv`
+    )
+    .toString();
 
   const splitLines = jsonFile.replace(/\r/g, '').split('\n');
 
