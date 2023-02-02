@@ -1,4 +1,5 @@
-const { camelCase, forEach, groupBy, map } = require('lodash');
+import lodash from "lodash";
+const { camelCase, forEach, groupBy, map } = lodash;
 
 const glossaryKeys = {
   category: 0,
@@ -8,24 +9,25 @@ const glossaryKeys = {
   exceptionDesc: 4,
 };
 
-const expandGlossary = nodesToExpand => {
+export const expandGlossary = (nodesToExpand) => {
   // first array is keys
-  const [keys, ...nodes] = nodesToExpand;
+  const [_, ...nodes] = nodesToExpand;
 
-  const grouppedGlossary = groupBy(nodes, node => node[glossaryKeys.category]);
+  const grouppedGlossary = groupBy(
+    nodes,
+    (node) => node[glossaryKeys.category]
+  );
 
   const mappedGlossary = [];
 
-  forEach(grouppedGlossary, groupGlossary => {
+  forEach(grouppedGlossary, (groupGlossary) => {
     const [categoryDef, ...exceptionsDef] = groupGlossary;
     const categoryName = categoryDef[glossaryKeys.category];
     const categoryId = camelCase(categoryName);
     const categorySubtitle = categoryDef[glossaryKeys.categorySubtitle];
     const categoryDefinition = categoryDef[glossaryKeys.categoryDesc];
 
-    const categories = [];
-
-    const exceptions = map(exceptionsDef, glossaryData => {
+    const exceptions = map(exceptionsDef, (glossaryData) => {
       const exceptionName = glossaryData[glossaryKeys.exception];
       const exceptionId = camelCase(exceptionName);
       const exceptionDescription = glossaryData[glossaryKeys.exceptionDesc];
@@ -51,4 +53,3 @@ const expandGlossary = nodesToExpand => {
   return mappedGlossary;
 };
 
-module.exports = { expandGlossary };

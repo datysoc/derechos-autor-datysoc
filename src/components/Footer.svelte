@@ -1,94 +1,28 @@
 <script>
-  import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
-  import Icon from 'svelte-awesome';
-  import { faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
-  import { faGithub } from '@fortawesome/free-brands-svg-icons';
-  import { COLORS } from '../resources/colors';
+  import {
+    Footer,
+    FooterIcon,
+    FooterLink,
+    FooterLinkGroup,
+  } from "flowbite-svelte"
+  import { LockClosed } from 'svelte-heros-v2';
+  import CCLogo from './ccLogo.svelte';
+  import ByLogo from './byLogo.svelte';
+  import GithubLogo from './githubLogo.svelte';
 
-  const githubRepo = envMapVars.env.GITHUB_REPO;
-
-  $: dividerColorBlue = css`
-    background-color: ${COLORS.blue};
-  `;
-
-  $: datysocFooter = css`
-    border-top: solid 1px ${COLORS.orange};
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0 0 18px;
-  `;
-
-  $: logosDescription = css`
-    font-size: 22px;
-    font-family: "Space Mono", serif, arial;
-    color: ${COLORS.gray};
-  `;
-
-  $: logos = css`
-    display: flex;
-  `;
-
-  $: logosDetail = css`
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    height: 175px;
-  `;
-
-  $: ccTitle = css`
-    color: ${COLORS.gray} !important;
-    font-size: 12px;
-    text-align: center;
-    margin: 0;
-
-    &:hover {
-      text-decoration: none;
-    }
-
-    & > img {
-      margin-top: 8px;
-    }
-  `;
-
-
-  $: privacyPolicy = css`
-    color: ${COLORS.gray} !important;
-    font-size: 16px;
-    text-align: center;
-
-    &:hover {
-      text-decoration: none;
-    }
-
-    & > svg {
-      margin-top: 8px;
-    }
-  `;
+  const githubRepo = import.meta.env.VITE_GITHUB_REPO;
 </script>
 
-<footer class={datysocFooter}>
-  <div class="associated-logos">
-    <div class={logosDetail}>
-      <p class={logosDescription}>Un proyecto de</p>
-      <div class={logos}>
-        <img
-          src='/images/datysocLogo.png'
-          alt='datysoc logo'
-          class='logo logo-datysoc'
-        />
+<hr class="border-highlight" />
 
-        <img
-          src='/images/karismaLogo.png'
-          alt='karisma logo'
-          class='logo logo-karisma'
-        />
-      </div>
-    </div>
+<Footer footerType="custom" class="p-4 bg-white md:px-6 md:py-8 rounded-none shadow-none">
+  <div class="sm:flex flex-col xl:flex-row sm:items-center sm:justify-between lg:justify-evenly">
+    <div class="flex flex-col items-center">
+      <p class="text-xs font-bold md:text-lg text-mainTitle">
+        Apoyado por
+      </p>
 
-    <div class={logosDetail}>
-      <p class={logosDescription}>Apoyado por</p>
-      <div class={logos}>
+      <div class="flex flex-col md:flex-row flex-wrap items-center sm:justify-between">
         <img
           src='/images/indelaLogo.png'
           alt='indela logo'
@@ -101,140 +35,124 @@
           class='logo logo-osf'
         />
       </div>
+
+      <div class="flex flex-col md:flex-row flex-wrap items-center sm:justify-between">
+        <img
+          src='/images/pijipLogo.png'
+          alt='pijip logo'
+          class='logo logo-pijip'
+        />
+
+        <img
+          src='/images/arcadiaLogo.jpg'
+          alt='arcadia logo'
+          class='logo logo-arcadia'
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center mt-4 xl:mt-0">
+      <p class="text-xs font-bold md:text-lg text-mainTitle">
+        Un proyecto de
+      </p>
+
+      <div class="sm:flex sm:items-center sm:justify-between flex-wrap">
+        <img
+          src='/images/datysocLogo.png'
+          alt='datysoc logo'
+          class='logo logo-datysoc'
+        />
+
+        <img
+          src='/images/karismaLogo.png'
+          alt='karisma logo'
+          class='logo logo-karisma'
+        />
+      </div>
+
+      <div class="sm:flex sm:items-center sm:justify-between flex-wrap">
+        <img
+          src='/images/fairAccessKnowledgeLogo.png'
+          alt='Fair Access Knowdledge logo'
+          class='logo logo-fairAccessKnowledge'
+        />
+      </div>
     </div>
   </div>
 
-  <div
-    class="dividers dividers-center"
-    style="margin: 0 0 22px;"
-  >
-    <div class={`divider divider-center ${dividerColorBlue}`} />
-  </div>
+  <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
 
-  <div class="footer-cc-privacy">
-    <div class="social">
-      <a
-        class={ccTitle}
+  <div class="sm:flex sm:items-end sm:justify-between">
+    <FooterLinkGroup ulClass="flex flex-wrap items-center mt-3 text-xs lg:text-sm text-gray-500 sm:mt-0">
+      <FooterIcon
         href="https://creativecommons.org/licenses/by/4.0/deed.es"
         target="_blank"
+        class="flex flex-row items-center text-gray-400"
       >
-        <img
-          src='/images/CC-BY_icon.png'
-          alt='indela logo'
-          class='logo-cc'
-        />
-        <br/>
-        <span>
+        <CCLogo />
+        <span class="ml-px" />
+        <ByLogo />
+
+        <span class="text-left ml-2 text-mainTitle hover:text-inactiveBox">
           Licencia Creative Commons<br/>Atribución 4.0 Internacional.
         </span>
-      </a>
+      </FooterIcon>
+    </FooterLinkGroup>
 
-      <a
-        class={ccTitle}
-        href={githubRepo}
-        target="_blank"
-      >
-        <Icon
-          data={faGithub}
-          scale={1.8}
-          style={`
-            color: ${COLORS.gray};
-            border: 0;
-            background-color: transparent;
-          `}
-        />
-        <br/>
+    <FooterLinkGroup ulClass="flex flex-col flex-wrap cursor-pointer items-center mt-3 text-xs lg:text-sm text-gray-500 sm:mt-0 lg:mt-2">
+      <FooterIcon href={githubRepo} target="_blank">
+        <GithubLogo />
+
+        <span class="hover:text-inactiveBox">
           Github Repo
-        <span>
         </span>
-      </a>
-    </div>
+      </FooterIcon>
+    </FooterLinkGroup>
 
-    <a
-      class={privacyPolicy}
-      href="/politica-privacidad"
-    >
-      <Icon
-        data={faUnlockAlt}
-        scale={1.3}
-        style={`
-          color: ${COLORS.gray};
-          border: 0;
-          background-color: transparent;
-        `}
-      />
-      <br/>
-      <span>
-        Política de uso y privacidad
-      </span>
-    </a>
+    <FooterLinkGroup ulClass="flex flex-col flex-wrap items-center mt-3 text-xs lg:text-sm text-gray-500 sm:mt-0 lg:mt-2">
+      <FooterLink href="/politica-privacidad" aClass="flex flex-col items-center text-mainTitle">
+        <LockClosed />
+
+        <span>
+          Política de uso y privacidad
+        </span>
+      </FooterLink>
+    </FooterLinkGroup>
   </div>
-</footer>
+</Footer>
 
 <style>
-  .dividers {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .dividers-center {
-    justify-content: center;
-  }
-
-  .divider {
-    height: 2px;
-    width: 160px;
-  }
-
-  .divider-center {
-    width: 400px;
-  }
-
-  .associated-logos {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    padding: 42px 0;
-  }
-
   .logo {
     margin: 12px 16px;
   }
 
   .logo-datysoc {
-    height: 60px;
+    height: 40px;
   }
 
   .logo-indela {
     margin-top: 30px;
-    width: 200px;
+    height: 30px;
   }
 
   .logo-karisma {
-    height: 70px;
+    height: 55px;
+  }
+
+  .logo-fairAccessKnowledge {
+    height: 65px;
   }
 
   .logo-osf {
-    height: 70px;
+    height: 45px;
     margin: 18px 16px 8px;
   }
 
-  .footer-cc-privacy {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 28px;
+  .logo-pijip {
+    height: 100px;
   }
 
-  .logo-cc {
-    widht: 80px;
-  }
-
-  .social {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-grow: 0.06;
+  .logo-arcadia {
+    height: 45px;
   }
 </style>
-

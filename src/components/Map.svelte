@@ -16,8 +16,8 @@
   export let countryToToggle = '';
   export let filtersSelectedWithCountries = [];
 
-  const mapboxToken = envMapVars.env.MAPBOX_TOKEN;
-  const mapboxStyle = envMapVars.env.MAPBOX_STYLE;
+  const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
+  const mapboxStyle = import.meta.env.VITE_MAPBOX_STYLE;
 
   const { ScaleControl } = controls
 
@@ -79,6 +79,8 @@
     });
 
     fillColorForCountries();
+
+    mapComponent.setCenter([-65, -15]);
   };
 
   const shouldHighlightCountry = e => {
@@ -151,28 +153,20 @@
   });
 </script>
 
-<Map
-  accessToken={mapboxToken}
-  bind:this={mapComponent}
-  style={mapboxStyle}
-  on:ready={onMapReady}
-  on:click={shouldHighlightCountry}
-  options={{
-  scrollZoom: true,
-  zoom: 0,
-  minZoom: 2.5,
-  maxZoom: 15.5,
-  }}
->
-  <ScaleControl />
-</Map>
-
-<style>
-  :global(.mapboxgl-map) {
-    height: 200px;
-  }
-
-  :global(.mapboxgl-canvas:focus) {
-    outline: none;
-  }
-</style>
+<div class="relative w-screen h-screen">
+  <Map
+    accessToken={mapboxToken}
+    bind:this={mapComponent}
+    style={mapboxStyle}
+    on:ready={onMapReady}
+    on:click={shouldHighlightCountry}
+    options={{
+      scrollZoom: true,
+      zoom: 2.5,
+      minZoom: 2.4,
+      maxZoom: 5,
+    }}
+  >
+    <ScaleControl />
+  </Map>
+</div>

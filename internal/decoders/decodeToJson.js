@@ -1,23 +1,23 @@
-const { camelCase, forEach } = require('lodash');
+import lodash from "lodash";
+const { camelCase, forEach } = lodash;
 
-const expandToNodes = nodesToExpand => {
+export const expandToNodes = (nodesToExpand) => {
   // first array is keys
   const [keys, ...nodes] = nodesToExpand;
 
   const obj = [];
 
-  forEach(nodes, node => {
-    const nodeId = camelCase(node[0])
+  forEach(nodes, (node) => {
+    const nodeId = camelCase(node[0]);
     const nodeToStore = { id: nodeId };
 
     forEach(keys, (key, keyIndex) => {
-      nodeToStore[key] = node[keyIndex] || '';
+      nodeToStore[key] = node[keyIndex] || "";
     });
 
     obj.push(nodeToStore);
-  })
+  });
 
   return obj;
 };
 
-module.exports = { expandToNodes };

@@ -1,123 +1,142 @@
 <script>
-  import {slide} from 'svelte/transition';
-  import { find, first } from 'lodash';
-  import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
-  import Icon from 'svelte-awesome';
-  import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-  import { COLORS } from '../resources/colors';
-  import ExceptionsDetails from '../components/ExceptionsDetails.svelte';
-  import LawsDetails from '../components/LawsDetails.svelte';
+  import {
+    Button,
+    AccordionItem,
+    Accordion,
+  } from 'flowbite-svelte';
+  import { XCircle, ChevronDown, ChevronUp } from 'svelte-heros-v2';
+  import { find, first, isEmpty } from 'lodash';
+  /*import ExceptionsDetails from '../components/ExceptionsDetails.svelte';*/
 
   export let onClose;
   export let countryDetails;
   export let states;
   export let categories;
 
-  $: countryName = css`
-    color: ${COLORS.white};
-    font-size: 24px;
-    margin: 0 0 22px;
-  `;
+  $: categoryFor = categoryId =>
+  find(categories, { id: categoryId });
 
-  $: categoryDescription = css`
-    color: ${COLORS.white};
-    font-family: "Space Mono", Arial, sans-serif;
-    font-size: 14px;
-    margin: 0 0 30px;
-  `;
+  $: subcategoryFor = subcategoryId => {
+    const categoryDesc = categoryFor(categoryToShow.id).items;
+    return find(categoryDesc, { id: subcategoryId }).label;
+  };
 
-  const categoryFor = categoryId =>
-    find(categories, { id: categoryId });
+  $: contrastColorFor = exceptionState =>
+  exceptionState !== 'insuficiente' ? 'white' : 'mainTitle';
 
+  $: stateLabelFor = stateId => find(states, { id: stateId });
   $: categoryToShow = first(countryDetails.categories);
 </script>
 
-<div class="box">
-  <button
-    class="closeButton"
+<div class="absolute top-1 left-1">
+  <Button
+    outline={true}
+    class="!p-0 hover:!bg-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus:ring-white focus-visible:ring-white"
+    size="md"
     on:click={onClose}
   >
-    <Icon
-      data={faTimesCircle}
-      scale={1.5}
-      style={`
-        color: ${COLORS.white};
-        border: 0;
-        background-color: transparent;
-      `}
+    <XCircle
+      color="white"
+      class="w-8 h-8"
     />
-  </button>
+  </Button>
+</div>
 
-  <div class="detailsContainer">
-    <h3 class={countryName}>{countryDetails.name}</h3>
-    <div class="scrollContainer">
-      <div class="categoryContainer">
-        <div class="category">
-          <div class="categoryDetail">
-            <p class="stateLabel">
-              <span>{categoryFor(categoryToShow.id).value}</span>
-            </p>
+<div class="text-white text-left pl-8 pr-6 pt-4">
+  <h3 class="font-semibold text-xl">{countryDetails.name}</h3>
+  <div class="font-body">
+    <div class="mt-2 mb-4">
+      <p class="font-semibold">
+        {categoryFor(categoryToShow.id).value}
+      </p>
+      <p class="font-sans text-sm">
+        {categoryFor(categoryToShow.id).description}
+      </p>
+    </div>
+
+    <div>
+      <Accordion
+        activeClasses="bg-white focus:ring-none !accent-red"
+        inactiveClasses="hover:border-none"
+        class="border-none hover:border-none flex-grow md:max-w-lg lg:max-w-2xl xl:max-w-4xl"
+      >
+        {#each categoryToShow.exceptions as exception (exception.id)}
+          <div class="exception-accordion-item">
+            <AccordionItem
+              class="bg-{exception.state} cursor-default"
+            >
+              <div slot="header" class="text-{contrastColorFor(exception.state)}">
+                <span class="text-base">
+                  • {subcategoryFor(exception.id)}
+                </span>
+                <br />
+                <span class="text-sm font-sans">
+                  ( {stateLabelFor(exception.state).state} )
+                </span>
+              </div>
+
+              <span slot="arrowdown">
+                {#if !isEmpty(exception.norms)}
+                  <ChevronDown
+                    class="text-{contrastColorFor(exception.state)}"
+                  />
+                {/if}
+              </span>
+              <span slot="arrowup">
+                {#if !isEmpty(exception.norms)}
+                  <ChevronUp
+                    class="text-{contrastColorFor(exception.state)}"
+                  />
+                {/if}
+              </span>
+
+              <div slot="default">
+                {#if !isEmpty(exception.norms)}
+                  <Accordion
+                    activeClasses="bg-white focus:ring-none !accent-red"
+                    inactiveClasses="hover:border-none"
+                    class="border-none hover:border-none flex-grow md:max-w-lg lg:max-w-2xl xl:max-w-4xl divide-none"
+                  >
+                    {#each exception.norms as detail (detail.id)}
+                      <div class="exception-accordion-detail mb-4">
+                        <AccordionItem
+                          class="bg-inactive cursor-default"
+                        >
+                          <p slot="header" class="text-darkGray font-sans">
+                            {detail.title}
+                          </p>
+
+                          <span slot="arrowdown">
+                            <ChevronDown
+                              class="text-darkGray"
+                            />
+                          </span>
+                          <span slot="arrowup">
+                            <ChevronUp
+                              class="text-darkGray"
+                            />
+                          </span>
+
+                          <div slot="default" class="text-white bg-inactive px-4 py-4 rounded-lg text-sm">
+                            <p class="detailDescription">
+                              {detail.description}
+                            </p>
+                            {#if detail.link}
+                              <a href={detail.link} class="!text-secondaryLink font-sans font-semibold text-md underline" target="_blank">
+                                {detail.linkLabel || 'más'}
+                              </a>
+                            {/if}
+                          </div>
+                        </AccordionItem>
+                      </div>
+                    {/each}
+                  </Accordion>
+                {/if}
+              </div>
+            </AccordionItem>
           </div>
-          <p class={categoryDescription}>
-            {categoryFor(categoryToShow.id).description}
-          </p>
-        </div>
-
-        <div class="categoryDetails" transition:slide|local={{ duration: 500 }}>
-          <ExceptionsDetails
-            categoryDesc={categoryFor(categoryToShow.id).items}
-            exceptions={categoryToShow.exceptions}
-            states={states}
-          />
-        </div>
-      </div>
+        {/each}
+      </Accordion>
     </div>
   </div>
 </div>
-
-<style>
-  .box {
-    width: 100%;
-    height: 100%;
-  }
-
-  .stateLabel {
-    color: white;
-    font-weight: 500;
-    font-size: 1.2em;
-  }
-
-  .detailsContainer {
-    padding: 2px 20px 30px;
-  }
-
-  .scrollContainer {
-    border-radius: 6px;
-    height: calc(100vh - 200px);
-    overflow: hidden;
-    overflow-y: auto;
-  }
-
-  .category {}
-
-  .categoryDetail {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .closeButton {
-    border: 0;
-    background-color: transparent;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-
-  .categoryContainer {}
-
-</style>

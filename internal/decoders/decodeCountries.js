@@ -1,4 +1,5 @@
-const { camelCase, capitalize, forEach, groupBy, map } = require('lodash');
+import lodash from "lodash";
+const { camelCase, capitalize, forEach, groupBy, map } = lodash;
 
 const countryKeys = {
   name: 0,
@@ -19,32 +20,31 @@ const countryKeys = {
   norm3_linkDescription: 15,
 };
 
-const normsForException = categoryData =>
+const normsForException = (categoryData) => [
   [
-    [
-      categoryData[countryKeys.norm1],
-      categoryData[countryKeys.norm1_description],
-      categoryData[countryKeys.norm1_link],
-      categoryData[countryKeys.norm1_linkDescription],
-    ],
-    [
-      categoryData[countryKeys.norm2],
-      categoryData[countryKeys.norm2_description],
-      categoryData[countryKeys.norm2_link],
-      categoryData[countryKeys.norm2_linkDescription],
-    ],
-    [
-      categoryData[countryKeys.norm3],
-      categoryData[countryKeys.norm3_description],
-      categoryData[countryKeys.norm3_link],
-      categoryData[countryKeys.norm3_linkDescription],
-    ],
-  ];
+    categoryData[countryKeys.norm1],
+    categoryData[countryKeys.norm1_description],
+    categoryData[countryKeys.norm1_link],
+    categoryData[countryKeys.norm1_linkDescription],
+  ],
+  [
+    categoryData[countryKeys.norm2],
+    categoryData[countryKeys.norm2_description],
+    categoryData[countryKeys.norm2_link],
+    categoryData[countryKeys.norm2_linkDescription],
+  ],
+  [
+    categoryData[countryKeys.norm3],
+    categoryData[countryKeys.norm3_description],
+    categoryData[countryKeys.norm3_link],
+    categoryData[countryKeys.norm3_linkDescription],
+  ],
+];
 
 const parseNorms = (normsToParse) => {
   const norms = [];
 
-  forEach(normsToParse, normToParse => {
+  forEach(normsToParse, (normToParse) => {
     const [title, description, link, linkLabel] = normToParse;
 
     if (title) {
@@ -63,14 +63,14 @@ const parseNorms = (normsToParse) => {
   return norms;
 };
 
-const categoryToStore = grouppedCategory => {
+const categoryToStore = (grouppedCategory) => {
   const firstCategory = grouppedCategory[0];
   const categoryId = camelCase(firstCategory[countryKeys.category]);
 
-  const exceptions = map(grouppedCategory, categoryData => {
+  const exceptions = map(grouppedCategory, (categoryData) => {
     const exceptionId = camelCase(categoryData[countryKeys.exception]);
     const state = camelCase(categoryData[countryKeys.state]);
-    
+
     return {
       id: exceptionId,
       state: state,
@@ -84,44 +84,46 @@ const categoryToStore = grouppedCategory => {
   };
 };
 
-const countryNameToUse = countryName => {
+const countryNameToUse = (countryName) => {
   switch (countryName) {
-    case 'Costarica':
-      return 'Costa Rica';
+    case "Costarica":
+      return "Costa Rica";
 
-    case 'Elsalvador':
-      return 'El Salvador';
+    case "Elsalvador":
+      return "El Salvador";
 
-    case 'Republicadominicana':
-      return 'Dominican Rep.';
+    case "Republicadominicana":
+      return "Dominican Rep.";
 
-    case 'Brasil':
-      return 'Brazil';
+    case "Brasil":
+      return "Brazil";
 
     default:
       return countryName;
   }
 };
 
-const expandCountries = nodesToExpand => {
+export const expandCountries = (nodesToExpand) => {
   // first array is keys
-  const [keys, ...nodes] = nodesToExpand;
+  const [_, ...nodes] = nodesToExpand;
 
-  const grouppedCountries = groupBy(nodes, node => node[countryKeys.name]);
+  const grouppedCountries = groupBy(nodes, (node) => node[countryKeys.name]);
 
   const mappedCountries = [];
 
-  forEach(grouppedCountries, grouppedCountry => {
+  forEach(grouppedCountries, (grouppedCountry) => {
     const firstItem = grouppedCountry[0];
     const countryName = firstItem[countryKeys.name];
     const countryId = capitalize(camelCase(countryName));
 
     const categories = [];
 
-    const grouppedCategoriesByCountry = groupBy(grouppedCountry, countryData =>
-      countryData[countryKeys.category]);
+    const grouppedCategoriesByCountry = groupBy(
+      grouppedCountry,
+      (countryData) => countryData[countryKeys.category]
+    );
 
-    forEach(grouppedCategoriesByCountry, grouppedCategory => {
+    forEach(grouppedCategoriesByCountry, (grouppedCategory) => {
       categories.push(categoryToStore(grouppedCategory));
     });
 
@@ -137,4 +139,3 @@ const expandCountries = nodesToExpand => {
   return mappedCountries;
 };
 
-module.exports = { expandCountries };

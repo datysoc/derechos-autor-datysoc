@@ -1,14 +1,14 @@
 <script>
+  import { Button} from 'flowbite-svelte';
   import {slide} from 'svelte/transition';
-  import { css } from '../../node_modules/@emotion/css/dist/emotion-css.umd.min.js';
-  import Icon from 'svelte-awesome';
+  import { ArrowUpTray, ChevronDown } from 'svelte-heros-v2';
   import { cloneDeep, find, first, flatten, map } from 'lodash';
-  import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-  import { COLORS, UICOLORS } from '../resources/colors';
+  import { COLORS } from '../resources/colors';
 
   export let categories = {};
   export let itemsChecked = [];
   export let onChecked;
+  export let onCloseFilters = null;
 
   const possibleFilters = flatten(map(categories, cat =>
     map(cat.items, subcat => `${cat.id}_${subcat.id}`)));
@@ -52,147 +52,95 @@
     collapsedState = collapsedStateToModify;
   };
 
-  $: categoryGroup = css`
-    margin: 8px 12px;
-
-    &:first-child {
-      margin-top: 28px;
-    }
-  `;
-
-  $: categoriesToSelect = css`
-    padding: 0 8px;
-  `;
-
-  $: categoryContainer = css`
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-  `;
-
-  $: categoryLabel = isCollapsed => css`
-    color: ${isCollapsed ? COLORS.lighGray5 : COLORS.gray};
-    font-size: 20px;
-    font-weight: 500;
-    margin: 3px 0;
-  `;
-
-  $: itemsGroup = css`
-    padding: 4px 4px 4px 18px;
-  `;
-
-  $: itemLabel = css`
-    color: ${COLORS.gray10};
-    font-size: 16px;
-    font-weight: 400;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin: 12px 0;
-
-    &:first-child {
-      margin-top: 8px;
-    }
-  `;
-
-  $: radioControl = css`
-    display: flex;
-    width: 1em;
-    height: 1em;
-    border-radius: 50%;
-    border: 0.1em solid ${UICOLORS.mainChecked};
-    padding: 1px 1px 2px 2px;
-  `;
-
-  $: radioControlChecked = css`
-    background-color: ${UICOLORS.mainChecked};
-    border-radius: 50%;
-    width: 1em;
-    height: 1em;
-  `;
-
   $: shouldCollapse = categoryId => {
     const { isCollapsed = false } = find(collapsedState, cat => cat.id === categoryId) || {};
 
     return isCollapsed;
   };
 
-  $: isChecked = itemValue => !!find(itemsChecked, itemChecked => itemChecked === itemValue);
+  $: isChecked = (catId, itemVal) =>
+  !!find(itemsChecked, itemChecked => itemChecked === `${catId}_${itemVal}`);
 </script>
 
-<div class="filtersContainer">
-  {#each categories as category (category.id)}
-    <div class={`${categoryGroup} ${categoriesToSelect}`}>
-      <div class={categoryContainer}>
-        <p class={categoryLabel(shouldCollapse(category.id))}>
-          <span>{category.value}</span>
-        </p>
-        <button
-          class={`
-            button
-            angleDown
-            ${!shouldCollapse(category.id) ? 'angleUp' : ''}
-          `}
-          on:click={() => toggleCollapse(category.id)}
-        >
-          <Icon
-            data={faAngleDown}
-            scale={1.5}
-            style={`color: ${shouldCollapse(category.id) ? COLORS.lighGray20 : COLORS.gray}`}
-          />
-        </button>
-      </div>
-      {#if !shouldCollapse(category.id)}
-        <div transition:slide={{ duration: 500 }} class={itemsGroup}>
-          {#each category.items as item (item.id)}
-            <label for={`category_${item.id}`} class={itemLabel}>
-              <span>{item.label}</span>
-
-              <span>
-                <input
-                  id={`category_${item.id}`}
-                  type="radio"
-                  class="radioInput"
-                  name={category.id}
-                  on:change={toggleChecked}
-                  value={`${category.id}_${item.value}`}
-                />
-                  <div class={radioControl}>
-                    <div class={`${isChecked(`${category.id}_${item.value}`) ? radioControlChecked : ''}`} />
-                  </div>
-                </span>
-            </label>
-          {/each}
-        </div>
-      {/if}
-    </div>
-  {/each}
+<div class="absolute top-0 right-0 md:hidden">
+  <Button
+    outline={true}
+    class="!p-0 hover:!bg-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus:ring-white focus-visible:ring-white bg-highlight p-2 rounded-none rounded-bl-md"
+    size="md"
+    on:click={onCloseFilters}
+  >
+    <ArrowUpTray
+      color={COLORS.white}
+      class="w-6 h-6 -rotate-90 m-1"
+    />
+  </Button>
 </div>
 
-<style>
-  .angleDown {
-    display: inline-block;
-    transition-duration: 500ms;
-    transition-property: transform;
-  }
+{#each categories as category (category.id)}
+  <div class="mb-2">
+    <div class="flex flex-row items-center justify-between text-left">
+      <p
+        class={`
+        ${!shouldCollapse(category.id)
+          ? 'font-semibold text-mainLink'
+          : 'font-regular text-inactive'}
+          text-sm
+          lg:text-base
+        `}
+      >
+        <span>{category.value}</span>
+      </p>
+      <button
+        class={`
+        ${!shouldCollapse(category.id) ? 'text-mainLink' : 'text-inactive'}
+        bg-gray-50
+        `}
+        on:click={() => toggleCollapse(category.id)}
+      >
+        <ChevronDown class={shouldCollapse(category.id) ? 'transition-transform' : 'transition-transform rotate-180'} />
+      </button>
+    </div>
+    {#if !shouldCollapse(category.id)}
+      <div
+        transition:slide={{ duration: 500 }}
+        class="flex flex-col items-start pl-2 pr-6"
+      >
+        {#each category.items as item (item.id)}
+          <label
+            for={`category_${item.id}`}
+            class="flex flex-row items-center justify-between w-full font-semibold font-body my-1"
+          >
+            <span
+              class={`
+              ${isChecked(category.id, item.value) ? 'text-mainTitle' : 'text-inactive'}
+              text-xs lg:text-sm text-left
+              `}
+            >
+              {item.label}
+            </span>
 
-  .angleUp {
-    transform: rotate(180deg);
-  }
-
-  .button {
-    background: 0;
-    height: 32px;
-    padding: 6px;
-    margin: 0;
-    border: 0;
-    cursor: pointer;
-  }
-
-  .radioInput {
-    opacity: 0;
-    width: 0;
-    height: 0;
-    position: absolute;
-  }
-</style>
+            <span>
+              <input
+                id={`category_${item.id}`}
+                type="radio"
+                class="w-0 h-0 opacity-0 absolute"
+                name={category.id}
+                on:change={toggleChecked}
+                value={`${category.id}_${item.value}`}
+              />
+              <div
+                class={`flex items-center justify-center w-4 h-4 rounded-lg border border-solid
+                ${isChecked(category.id, item.value) ? 'border-mainLink' : 'border-inactive'}
+                p-2`}
+              >
+                {#if isChecked(category.id, item.value)}
+                  <div class="bg-mainLink w-3 h-3 rounded-lg grow-1 shrink-0" />
+                {/if}
+              </div>
+            </span>
+          </label>
+        {/each}
+      </div>
+    {/if}
+  </div>
+{/each}

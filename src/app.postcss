@@ -1,0 +1,141 @@
+/* Write your global styles here, in PostCSS syntax */
+
+@tailwind base;
+
+:root {
+  font-family: "Space Mono", "Work Sans", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #cecece;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+.card {
+  padding: 2em;
+}
+
+#app {
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+button {
+  border-radius: 8px;
+  border: none;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border: none;
+}
+button:focus,
+button:focus-visible {
+  outline: none;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #cecece;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+@tailwind components;
+
+@tailwind utilities;
+
+li.isLegalTab > button:hover {
+  border-bottom-style: none !important;
+  border-bottom-color: transparent !important;
+}
+
+li.isLegalTab > button.\!border-b-mainLink:hover {
+  border-bottom-style: solid !important;
+  border-bottom-color: #2489cf !important;
+}
+
+.notas-modal h3 {
+  color: #535353;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .notas-modal h3 {
+    font-size: 1.125rem;
+  }
+}
+
+#filtersWrapper,
+#slideDetailsWrapper {
+  height: 100%;
+}
+
+@media (min-width: 768px) {
+  #filtersWrapper,
+  #slideDetailsWrapper {
+    height: calc(100% - 8rem)
+  }
+}
+
+@media (min-width: 1280px) {
+  #filtersWrapper,
+  #slideDetailsWrapper {
+    height: calc(100% - 5rem)
+  }
+}
+
+.exception-accordion-item > div > div.p-5,
+.exception-accordion-detail > div > div.p-5 {
+  padding-top: 12px !important;
+  padding-bottom: 0 !important;
+  padding-left: 2px !important;
+  padding-right: 0 !important;
+}
+
+.exception-accordion-detail > div > div.p-5 {
+  padding-top: 8px !important;
+}
