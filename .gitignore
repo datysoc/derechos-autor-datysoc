@@ -1,6 +1,7 @@
 /node_modules/
 /public/build/
 /internal/dataToDecode/BD*
+/dist
 
 .env
 .DS_Store
