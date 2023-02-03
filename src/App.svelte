@@ -4,7 +4,6 @@
   import { find } from 'lodash';
   import Footer from './components/Footer.svelte';
   import Header from './components/Header.svelte';
-  import GStats from './components/gStatsAsync.svelte';
   import Home from './routes/Home.svelte';
   import Map from './routes/Map.svelte';
   import Glossary from './routes/Glossary.svelte';
@@ -63,6 +62,4 @@
       <Footer />
     {/if}
   </Router>
-
-  <GStats />
 </main>
