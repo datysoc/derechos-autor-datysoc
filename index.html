@@ -35,7 +35,10 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 
-gtag('config', 'G-5ZLKVS90LE');
+gtag('config', 'G-5ZLKVS90LE', {
+    page_title : document.title,
+    page_location: window.location.pathname,
+});
     </script>
   </body>
 </html>
