@@ -63,3 +63,19 @@
     {/if}
   </Router>
 </main>
+
+
+  {@html `
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZLKVS90LE"></script>
+    <script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-5ZLKVS90LE', {
+    page_title : document.title,
+    page_location: window.location.pathname,
+});
+  </script>
+  `}
